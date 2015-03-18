@@ -1,7 +1,11 @@
 {
   "name": "o80/i18n",
   "description": "Easy library to manage i18n with PHP.",
-  "keywords": ["php", "i18n", "internationalization"],
+  "keywords": [
+    "php",
+    "i18n",
+    "internationalization"
+  ],
   "homepage": "https://github.com/olivierperez/o80-i18n",
   "type": "library",
   "license": "Apache License 2.0",
@@ -19,6 +23,8 @@
     "phpunit/phpunit": "^4.5"
   },
   "autoload": {
-    "psr-4": {"o80\\": "src/o80"}
+    "psr-4": {
+      "o80\\": "src/o80"
+    }
   }
 }
