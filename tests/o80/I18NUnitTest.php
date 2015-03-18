@@ -37,6 +37,28 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
+    /**
+     * @dataProvider httpAcceptLAnguagesProvider
+     */
+    public function testGetHttpAcceptLanguages($httpAcceptLanguages, $expected) {
+        // given
+        $i18n = I18N::newInstance();
+        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = $httpAcceptLanguages;
+
+        // when
+        $langs = $i18n->getHttpAcceptLanguages();
+
+        // then
+        $this->assertEquals($expected, $langs);
+    }
+
+    public function httpAcceptLAnguagesProvider() {
+        return array(
+            array('en', array('en' => 1)),
+            array('en-US,en;q=0.8,fr-FR;q=0.5,fr;q=0.3', array('en-US' => 1, 'en' => 0.8, 'fr-FR' => 0.5, 'fr' => 0.3))
+        );
+    }
+
     private function invoke(&$object, $methodName) {
         $reflectionClass = new \ReflectionClass($object);
         $reflectionMethod = $reflectionClass->getMethod($methodName);

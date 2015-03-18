@@ -7,6 +7,8 @@ class I18N {
 
     private $dict;
 
+    private $path;
+
     private $dictProvider = null;
 
     private function __construct() {
@@ -31,7 +33,17 @@ class I18N {
     }
 
     public function get($key) {
+        if ($this->dict == null) {
+            $this->dict = $this->load();
+        }
         return in_array($key, $this->dict) ? $this->dict[$key] : $key;
+    }
+
+    /**
+     * @param mixed $path
+     */
+    public function setPath($path) {
+        $this->path = $path;
     }
 
     /**
@@ -39,5 +51,31 @@ class I18N {
      */
     public function setDefaultLang($defaultLang) {
         $this->defaultLang = $defaultLang;
+    }
+
+    /**
+     * @return array|null
+     */
+    private function load() {
+        $this->dictProvider->setLangsPath($this->path);
+        $dict = $this->dictProvider->load($this->getLang(), $this->defaultLang);
+
+        return $dict;
+    }
+
+    public function getHttpAcceptLanguages() {
+        preg_match_all("/([[:alpha:]]{1,8}(?:-[[:alpha:]|-]{1,8})?)" .
+                       "(?:\\s*;\\s*q\\s*=\\s*(1\\.0{0,3}|0\\.\\d{0,3}))?\\s*(?:,|$)/i",
+                       $_SERVER['HTTP_ACCEPT_LANGUAGE'], $hits);
+        $hits = array_combine($hits[1], $hits[2]);
+
+        foreach ($hits as $key => $hit) {
+            if (empty($hit)) {
+                $hits[$key] = 1;
+            }
+        }
+
+
+        return $hits;
     }
 }

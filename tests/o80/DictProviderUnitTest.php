@@ -19,7 +19,7 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
         // given
 
         // when
-        $dict = $this->provider->load('en');
+        $dict = $this->provider->load('en', '');
 
         // then
         $this->assertNotNull($dict);
@@ -34,7 +34,7 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
         // given
 
         // when
-        $dict = $this->provider->load('en_GB');
+        $dict = $this->provider->load('en_GB', '');
 
         // then
         $this->assertNotNull($dict);
@@ -49,7 +49,7 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
         // given
 
         // when
-        $dict = $this->provider->load('en_US');
+        $dict = $this->provider->load('en_US', '');
 
         // then
         $this->assertNotNull($dict);
@@ -64,10 +64,25 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
         // given
 
         // when
-        $dict = $this->provider->load('fr');
+        $dict = $this->provider->load('fr', '');
 
         // then
         $this->assertNull($dict);
+    }
+
+    /**
+     * Try to load 'fr' file, using default lang 'en'
+     */
+    function testLoadFromDefaultLangFile() {
+        // given
+
+        // when
+        $dict = $this->provider->load('fr', 'en');
+
+        // then
+        $this->assertNotNull($dict);
+        $this->assertEquals(1, count($dict));
+        $this->assertEquals('en Hello World!', $dict['HELLOWORLD']);
     }
 
 }
