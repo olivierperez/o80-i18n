@@ -59,12 +59,32 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
+    public function testLoadShouldCallDictProvider() {
+        // given
+        $i18n = I18N::newInstance();
+        $providerMock = $this->getMock('\\o80\\DictProvider');
+
+        $reflectionClass = new \ReflectionClass($i18n);
+        $reflectionProperty = $reflectionClass->getProperty('dictProvider');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($i18n, $providerMock);
+
+        // expects
+        $providerMock->expects($this->once())->method('setLangsPath');
+        $providerMock->expects($this->once())->method('load');
+
+        // when
+        $this->invoke($i18n, 'load', $i18n);
+
+        // then
+    }
+
     private function invoke(&$object, $methodName) {
         $reflectionClass = new \ReflectionClass($object);
         $reflectionMethod = $reflectionClass->getMethod($methodName);
         $reflectionMethod->setAccessible(true);
 
-        $params = array_slice(func_get_args(), 2); //get all the parameters after $methodName
+        $params = array_slice(func_get_args(), 2); // get all the parameters after $methodName
         return $reflectionMethod->invokeArgs($object, $params);
     }
 

@@ -7,10 +7,18 @@ class DictProvider {
 
     function __construct() {}
 
+    /**
+     * @param $path
+     */
     public function setLangsPath($path) {
         $this->path = $path;
     }
 
+    /**
+     * @param $lang
+     * @param $defaultLang
+     * @return array|null
+     */
     public function load($lang, $defaultLang) {
         // List file names
         $files = $this->listLangFiles();
