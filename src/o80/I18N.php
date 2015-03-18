@@ -5,7 +5,7 @@ class I18N {
 
     private $defaultLang;
 
-    private $dict;
+    private $dict = null;
 
     private $path;
 
@@ -33,10 +33,10 @@ class I18N {
     }
 
     public function get($key) {
-        if ($this->dict == null) {
+        if ($this->dict === null) {
             $this->dict = $this->load();
         }
-        return in_array($key, $this->dict) ? $this->dict[$key] : $key;
+        return array_key_exists($key, $this->dict) ? $this->dict[$key] : '[missing key: ' . $key . ']';
     }
 
     /**
@@ -56,7 +56,7 @@ class I18N {
     /**
      * @return array|null
      */
-    private function load() {
+    public function load() {
         $this->dictProvider->setLangsPath($this->path);
         $dict = $this->dictProvider->load($this->getLang(), $this->defaultLang);
 

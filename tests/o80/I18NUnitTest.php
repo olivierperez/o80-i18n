@@ -79,6 +79,29 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
         // then
     }
 
+    public function testDontLoadDictMoreThanOnce() {
+        // given
+        $i18n = $this->getMockBuilder('\\o80\\I18N')
+            ->disableOriginalConstructor()
+            ->setMethods(array('load'))
+            ->getMock();
+
+        // assert
+        $i18n->expects($this->once())
+            ->method('load')
+            ->willReturn(array('a'=>'A', 'b'=>'B'));
+
+        // when
+        $a = $i18n->get('a');
+        $b = $i18n->get('b');
+        $missingKeyC = $i18n->get('c');
+
+        // then
+        $this->assertEquals('A', $a);
+        $this->assertEquals('B', $b);
+        $this->assertEquals('[missing key: c]', $missingKeyC);
+    }
+
     private function invoke(&$object, $methodName) {
         $reflectionClass = new \ReflectionClass($object);
         $reflectionMethod = $reflectionClass->getMethod($methodName);
