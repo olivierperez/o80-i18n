@@ -8,7 +8,8 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testShouldFindIpOfClient($defaultLang, $getLang, $sessionLang, $acceptLang, $expectedLang) {
         // given
-        $i18n = new I18N($defaultLang);
+        $i18n = I18N::newInstance();
+        $i18n->setDefaultLang($defaultLang);
         $_GET['lang'] = $getLang;
         $_SESSION['lang'] = $sessionLang;
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = $acceptLang;
