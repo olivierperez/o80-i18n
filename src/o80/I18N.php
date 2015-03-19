@@ -11,6 +11,8 @@ class I18N {
 
     private $dictProvider = null;
 
+    private $useLangFromGET = true;
+
     private function __construct() {
         $this->dictProvider = new DictProvider();
     }
@@ -23,7 +25,7 @@ class I18N {
 
     public function getAvailableLangs() {
         $langs = array();
-        if (isset($_GET) && array_key_exists('lang', $_GET)) {
+        if ($this->useLangFromGET && isset($_GET) && array_key_exists('lang', $_GET)) {
             $langs[] = $_GET['lang'];
         }
         if (isset($_SESSION) && array_key_exists('lang', $_SESSION)) {
@@ -102,5 +104,9 @@ class I18N {
         }
 
         return $result;
+    }
+
+    public function useLangFromGET($useLangFromGET) {
+        $this->useLangFromGET = $useLangFromGET;
     }
 }

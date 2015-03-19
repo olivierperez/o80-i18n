@@ -3,6 +3,12 @@ namespace o80;
 
 class I18NUnitTest extends \PHPUnit_Framework_TestCase {
 
+    public function setUp() {
+        $_GET = array();
+        $_SESSION = array();
+        $_SERVER = array();
+    }
+
     /**
      * @test
      * @dataProvider availableLangsProvider
@@ -33,8 +39,8 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
 
     public function availableLangsProvider() {
         return array(
-            array('en', 'en', array('en'=>1), 'en'),
-            array('fr', 'en_US', array('en'=>1), 'en'),
+            array('en', 'en', array('en' => 1), 'en'),
+            array('fr', 'en_US', array('en' => 1), 'en'),
         );
     }
 
@@ -76,7 +82,7 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
 
         // expects
         $providerMock->expects($this->once())->method('setLangsPath');
-        $providerMock->expects($this->once())->method('load')->willReturn(array('Key'=>'Message'));
+        $providerMock->expects($this->once())->method('load')->willReturn(array('Key' => 'Message'));
 
         // when
         $this->invoke($i18n, 'load', $i18n);
@@ -97,7 +103,7 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
         // assert
         $i18n->expects($this->once())
             ->method('load')
-            ->willReturn(array('a'=>'A', 'b'=>'B'));
+            ->willReturn(array('a' => 'A', 'b' => 'B'));
 
         // when
         $a = $i18n->get('a');
@@ -132,6 +138,34 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
         $this->invoke($i18n, 'load', $i18n);
 
         // then
+    }
+
+    /**
+     * @test
+     * @dataProvider useLangFromGETProvider
+     */
+    public function shouldNotLookInto_GET($useLangFromGET, $expected) {
+        // given
+        $i18n = I18N::newInstance();
+        $i18n->setDefaultLang('en');
+        $_GET['lang'] = 'fr';
+
+        // stub
+
+        // when
+        $i18n->useLangFromGET($useLangFromGET);
+        $langs = $i18n->getAvailableLangs();
+
+        // then
+        $this->assertEquals($expected, $langs);
+
+    }
+
+    public static function useLangFromGETProvider() {
+        return array(
+            array(true, array('fr', 'en')),
+            array(false, array('en'))
+        );
     }
 
     private function invoke(&$object, $methodName) {
