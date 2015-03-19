@@ -58,7 +58,21 @@ $i18n->setDefaultLang('en');
 
 ```php
 <h1><?php echo $i18n->get('Welcome'); ?></h1>
+<!-- Result : <h1>Welcome</h1> -->
+<h1><?php echo $i18n->get('NotExistingText'); ?></h1>
+<!-- Result : <h1>[missing key: NotExistingText]</h1> -->
 ```
+
+### How to set the language to use
+
+The system look into serverals variables to find the language file to load. Look below to understand it.
+
+* Use `$_GET['lang']` if it's defined and if it matches to a language file;
+* Use `$_SESSION['lang']` if it's defined and if it matches to a language file;
+* Use `$_SERVER['HTTP_ACCEPT_LANGUAGE']` if it's defined and if it matches to a language file;
+    * It checks for all languages found in this variable
+* Use the `$defaultLang` you defined in the I18N instance
+* If no file found, don't do load anything
 
 # Contribution
 
