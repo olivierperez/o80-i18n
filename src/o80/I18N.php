@@ -37,6 +37,14 @@ class I18N {
         return $langs;
     }
 
+    /**
+     * Get the translation of a key. The language will be automaticaly selected in :
+     * $\_GET, $\_SESSION, $\_SERVER or $defaultLang attribute.
+     *
+     * @param string $key The key of the translation
+     * @return string The translation, or <code>[missing key:$key]</code> if not found
+     * @throws CantLoadDictionaryException Thrown when there is no file to be loaded for the prefered languages
+     */
     public function get($key) {
         if ($this->dict === null) {
             $this->dict = $this->load();
@@ -45,28 +53,40 @@ class I18N {
     }
 
     /**
-     * @param mixed $path
+     * Set the path of the dictionaries files directory.
+     *
+     * @param string $path The path of the directory containing the dictionaries files
      */
     public function setPath($path) {
         $this->path = $path;
     }
 
     /**
-     * @param mixed $defaultLang
+     * Set the default language.
+     *
+     * @param string $defaultLang The default language to use when the other doesn't match
      */
     public function setDefaultLang($defaultLang) {
         $this->defaultLang = $defaultLang;
     }
 
     /**
-     * @return array|null
+     * Load the dictionary that match the prefered languages.
+     *
+     * @return array The associative array of dictionary
+     * @throws CantLoadDictionaryException Thrown when there is no match between languages files and selected languages.
      */
     public function load() {
         $this->dictProvider->setLangsPath($this->path);
         $dict = $this->dictProvider->load($this->getAvailableLangs());
 
+        if ($dict === null) {
+            throw new CantLoadDictionaryException(CantLoadDictionaryException::NO_MATCHING_FILES);
+        }
+
         return $dict;
     }
+
 
     public function getHttpAcceptLanguages() {
         $result = array();

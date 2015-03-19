@@ -85,4 +85,22 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('en Hello World!', $dict['HELLOWORLD']);
     }
 
+    /**
+     * @expectedException \o80\CantLoadDictionaryException
+     * @expectedExceptionMessage \o80\CantLoadDictionaryException::NO_DICTIONARY_FILES
+     */
+    public function testThrowExceptionWhenNoFileArePresentInThePath() {
+        // given
+        $providerMock = $this->getMock('\\o80\\DictProvider', array('listLangFiles'));
+
+        // stub
+        $providerMock->method('listLangFiles')->willReturn(array());
+
+        // when
+        $providerMock->load(array('fr', 'en'));
+
+        // then
+        $providerMock->expects($this->once())->method('listLangFiles');
+    }
+
 }

@@ -71,7 +71,7 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
 
         // expects
         $providerMock->expects($this->once())->method('setLangsPath');
-        $providerMock->expects($this->once())->method('load');
+        $providerMock->expects($this->once())->method('load')->willReturn(array('Key'=>'Message'));
 
         // when
         $this->invoke($i18n, 'load', $i18n);
@@ -100,6 +100,29 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('A', $a);
         $this->assertEquals('B', $b);
         $this->assertEquals('[missing key: c]', $missingKeyC);
+    }
+
+    /**
+     * @expectedException \o80\CantLoadDictionaryException
+     * @expectedExceptionMessage \o80\CantLoadDictionaryException::NO_MATCHING_FILES
+     */
+    public function testThrowExceptionWhenNoFileAreMatchingTheLanguages() {
+        // given
+        $i18n = I18N::newInstance();
+        $providerMock = $this->getMock('\\o80\\DictProvider');
+
+        $reflectionClass = new \ReflectionClass($i18n);
+        $reflectionProperty = $reflectionClass->getProperty('dictProvider');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($i18n, $providerMock);
+
+        // expects
+        $providerMock->expects($this->once())->method('load')->willReturn(null);
+
+        // when
+        $this->invoke($i18n, 'load', $i18n);
+
+        // then
     }
 
     private function invoke(&$object, $methodName) {
