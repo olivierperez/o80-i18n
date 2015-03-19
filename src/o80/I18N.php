@@ -92,12 +92,11 @@ class I18N {
         $result = array();
         if (isset($_SERVER) && array_key_exists('HTTP_ACCEPT_LANGUAGE', $_SERVER)) {
             preg_match_all("/([[:alpha:]]{1,8}(?:-[[:alpha:]|-]{1,8})?)" .
-                           "(?:\\s*;\\s*q\\s*=\\s*(1\\.0{0,3}|0\\.\\d{0,3}))?\\s*(?:,|$)/i",
+                           "(?:\\s*;\\s*q\\s*=\\s*(?:1\\.0{0,3}|0\\.\\d{0,3}))?\\s*(?:,|$)/i",
                            $_SERVER['HTTP_ACCEPT_LANGUAGE'], $hits);
-            $hits = array_combine($hits[1], $hits[2]);
 
-            foreach ($hits as $key => $hit) {
-                $lang = str_replace('-', '_', $key);
+            foreach ($hits[1] as $hit) {
+                $lang = str_replace('-', '_', $hit);
                 $result[] = $lang;
             }
         }
