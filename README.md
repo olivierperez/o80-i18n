@@ -5,7 +5,7 @@ See below how the usage is simple.
 
 [![Build Status](https://travis-ci.org/olivierperez/o80-i18n.svg)](https://travis-ci.org/olivierperez/o80-i18n)
 [![Latest Unstable Version](https://poser.pugx.org/o80/i18n/v/unstable.svg)](https://packagist.org/packages/o80/i18n)
-[![License](https://poser.pugx.org/o80/i18n/license.svg)](https://packagist.org/packages/o80/i18n)
+[![License](https://poser.pugx.org/o80/i18n/license.svg)](https://tldrlegal.com/l/apache2)
 
 # How-to
 
@@ -36,7 +36,7 @@ For instance, put your language files in 'lang' directory :
 
 Example of language file `en.ini` :
 ```ini
-Welcome="Weclome"
+Welcome="Welcome"
 submit="submit"
 ```
 
