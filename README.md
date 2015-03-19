@@ -17,7 +17,7 @@ With [Composer](http://getcomposer.org/), you simply need to require [`o80/i18n`
 {
 ...
     "require": {
-        "o80/i18n": "dev-master"
+        "o80/i18n": "~0.1"
     }
 ...
 }
