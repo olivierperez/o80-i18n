@@ -1,6 +1,7 @@
 # o80-i18n
 
-TODO
+**o80-i18n** is a small PHP tool to manage i18n (internationalization). It uses `ini` format for language files.
+See below how the usage is simple.
 
 [![Build Status](https://travis-ci.org/olivierperez/o80-i18n.svg)](https://travis-ci.org/olivierperez/o80-i18n)
 [![Latest Unstable Version](https://poser.pugx.org/o80/i18n/v/unstable.svg)](https://packagist.org/packages/o80/i18n)
@@ -10,7 +11,7 @@ TODO
 
 ## Installation
 
-With [Composer](http://getcomposer.org/), you simply need to require [`o80/session`](https://packagist.org/packages/o80/i18n):
+With [Composer](http://getcomposer.org/), you simply need to require [`o80/i18n`](https://packagist.org/packages/o80/i18n):
 
 ```json
 {
@@ -24,7 +25,40 @@ With [Composer](http://getcomposer.org/), you simply need to require [`o80/sessi
 
 ## Usage
 
-TODO
+### Dictionaries
+
+For instance, put your language files in 'lang' directory :
+
+* `lang`
+    * `en.ini`
+    * `en_US.ini`
+    * `fr.ini`
+
+Example of language file `en.ini` :
+```ini
+Welcome="Weclome"
+submit="submit"
+```
+
+Example of language file `fr.ini` :
+```ini
+Welcome="Bienvenue"
+submit="valider"
+```
+
+### Configure the i18n instance
+
+```php
+$i18n = I18N::newInstance();
+$i18n->setPath(__DIR__ . '/langs');
+$i18n->setDefaultLang('en');
+```
+
+### Usage
+
+```php
+<h1><?php echo $i18n->get('Welcome'); ?></h1>
+```
 
 # Contribution
 
