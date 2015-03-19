@@ -4,9 +4,10 @@ namespace o80;
 class I18NUnitTest extends \PHPUnit_Framework_TestCase {
 
     /**
+     * @test
      * @dataProvider availableLangsProvider
      */
-    public function testShouldOrderAvailableLangs($getLang, $sessionLang, $acceptLangs, $defaultLang) {
+    public function shouldOrderAvailableLangs($getLang, $sessionLang, $acceptLangs, $defaultLang) {
         // given
         $_GET['lang'] = $getLang;
         $_SESSION['lang'] = $sessionLang;
@@ -38,9 +39,10 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @test
      * @dataProvider httpAcceptLAnguagesProvider
      */
-    public function testGetHttpAcceptLanguages($httpAcceptLanguages, $expected) {
+    public function shouldGetHttpAcceptLanguages($httpAcceptLanguages, $expected) {
         // given
         $i18n = I18N::newInstance();
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = $httpAcceptLanguages;
@@ -59,7 +61,10 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    public function testLoadShouldCallDictProvider() {
+    /**
+     * @test
+     */
+    public function shouldLoadShouldCallDictProvider() {
         // given
         $i18n = I18N::newInstance();
         $providerMock = $this->getMock('\\o80\\DictProvider');
@@ -79,7 +84,10 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
         // then
     }
 
-    public function testDontLoadDictMoreThanOnce() {
+    /**
+     * @test
+     */
+    public function shouldNotLoadDictMoreThanOnce() {
         // given
         $i18n = $this->getMockBuilder('\\o80\\I18N')
             ->disableOriginalConstructor()
@@ -103,10 +111,11 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @test
      * @expectedException \o80\CantLoadDictionaryException
      * @expectedExceptionMessage \o80\CantLoadDictionaryException::NO_MATCHING_FILES
      */
-    public function testThrowExceptionWhenNoFileAreMatchingTheLanguages() {
+    public function shouldThrowExceptionWhenNoFileAreMatchingTheLanguages() {
         // given
         $i18n = I18N::newInstance();
         $providerMock = $this->getMock('\\o80\\DictProvider');

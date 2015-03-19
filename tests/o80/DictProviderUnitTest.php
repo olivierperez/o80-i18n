@@ -3,6 +3,7 @@ namespace o80;
 
 class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
     /**
+     * @test
      * @var DictProvider
      */
     private $provider;
@@ -13,9 +14,10 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @test
      * 'en' will match to 'en'
      */
-    function testLoadExactFileTranslation_en() {
+    function shouldLoadExactFileTranslation_en() {
         // given
 
         // when
@@ -28,9 +30,10 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @test
      * 'en_GB' will match to 'en'
      */
-    function ttestLoadMatchingFileTranslation_enGB() {
+    function shouldLoadMatchingFileTranslation_enGB() {
         // given
 
         // when
@@ -43,9 +46,10 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @test
      * 'en_US' will match to 'en_US' instead of 'en'
      */
-    function testLoadExactFileTranslation_en_US() {
+    function shouldLoadExactFileTranslation_en_US() {
         // given
 
         // when
@@ -58,9 +62,10 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @test
      * Try to load 'fr' file.
      */
-    function testDontLoadNonExistingFile() {
+    function shouldDontLoadNonExistingFile() {
         // given
 
         // when
@@ -71,9 +76,10 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @test
      * Try to load 'fr' file, using default lang 'en'
      */
-    function testLoadFromDefaultLangFile() {
+    function shouldLoadFromDefaultLangFile() {
         // given
 
         // when
@@ -86,10 +92,11 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @test
      * @expectedException \o80\CantLoadDictionaryException
      * @expectedExceptionMessage \o80\CantLoadDictionaryException::NO_DICTIONARY_FILES
      */
-    public function testThrowExceptionWhenNoFileArePresentInThePath() {
+    public function shouldThrowExceptionWhenNoFileArePresentInThePath() {
         // given
         $providerMock = $this->getMock('\\o80\\DictProvider', array('listLangFiles'));
 

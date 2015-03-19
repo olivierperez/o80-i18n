@@ -4,9 +4,10 @@ namespace o80;
 class I18NIntegrationTest extends \PHPUnit_Framework_TestCase {
 
     /**
+     * @test
      * @dataProvider langsProvider
      */
-    function testFindKeyFromFile($defaultLang, $acceptLang, $sessionLang, $getLang) {
+    function shouldFindKeyFromTheRightFile($defaultLang, $acceptLang, $sessionLang, $getLang) {
         // given
         $i18n = I18N::newInstance();
         $i18n->setPath(__DIR__ . '/../resources/langs');
