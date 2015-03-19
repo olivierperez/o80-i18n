@@ -19,7 +19,6 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
         $_SESSION['lang'] = $sessionLang;
 
         $i18n = $this->getMockBuilder('\\o80\\I18N')
-            ->disableOriginalConstructor()
             ->setMethods(array('getHttpAcceptLanguages'))
             ->getMock();
         $i18n->setDefaultLang($defaultLang);
@@ -50,7 +49,7 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
      */
     public function shouldGetHttpAcceptLanguages($httpAcceptLanguages, $expected) {
         // given
-        $i18n = I18N::newInstance();
+        $i18n = new I18N();
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = $httpAcceptLanguages;
 
         // when
@@ -72,7 +71,7 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
      */
     public function shouldLoadShouldCallDictProvider() {
         // given
-        $i18n = I18N::newInstance();
+        $i18n = new I18N();
         $providerMock = $this->getMock('\\o80\\DictProvider');
 
         $reflectionClass = new \ReflectionClass($i18n);
@@ -96,7 +95,6 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
     public function shouldNotLoadDictMoreThanOnce() {
         // given
         $i18n = $this->getMockBuilder('\\o80\\I18N')
-            ->disableOriginalConstructor()
             ->setMethods(array('load'))
             ->getMock();
 
@@ -123,7 +121,7 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
      */
     public function shouldThrowExceptionWhenNoFileAreMatchingTheLanguages() {
         // given
-        $i18n = I18N::newInstance();
+        $i18n = new I18N();
         $providerMock = $this->getMock('\\o80\\DictProvider');
 
         $reflectionClass = new \ReflectionClass($i18n);
@@ -146,7 +144,7 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
      */
     public function shouldNotLookInto_GET($useLangFromGET, $expected) {
         // given
-        $i18n = I18N::newInstance();
+        $i18n = new I18N();
         $i18n->setDefaultLang('en');
         $_GET['lang'] = 'fr';
 

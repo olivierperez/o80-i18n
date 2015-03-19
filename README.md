@@ -49,7 +49,7 @@ submit="valider"
 ### Configure the i18n instance
 
 ```php
-$i18n = I18N::newInstance();
+$i18n = new I18N();
 $i18n->setPath(__DIR__ . '/langs');
 $i18n->setDefaultLang('en');
 ```

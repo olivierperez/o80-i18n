@@ -3,6 +3,8 @@ namespace o80;
 
 class I18N {
 
+    private static $instance;
+
     private $defaultLang;
 
     private $dict = null;
@@ -13,14 +15,16 @@ class I18N {
 
     private $useLangFromGET = true;
 
-    private function __construct() {
-        $this->dictProvider = new DictProvider();
+    public function __construct($dictProvider = null) {
+        $this->dictProvider = $dictProvider != null ? $dictProvider : new DictProvider();
     }
 
-    public static function newInstance() {
-        $instance = new I18N();
+    public static function instance() {
+        if (self::$instance == null) {
+            self::$instance = new I18N();
+        }
 
-        return $instance;
+        return self::$instance;
     }
 
     public function getAvailableLangs() {

@@ -9,7 +9,7 @@ class I18NIntegrationTest extends \PHPUnit_Framework_TestCase {
      */
     function shouldFindKeyFromTheRightFile($defaultLang, $acceptLang, $sessionLang, $getLang) {
         // given
-        $i18n = I18N::newInstance();
+        $i18n = new I18N();
         $i18n->setPath(__DIR__ . '/../resources/langs');
         $i18n->setDefaultLang($defaultLang);
         $_GET['lang'] = $getLang;
