@@ -47,4 +47,23 @@ class I18NIntegrationTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
+    /**
+     * @test
+     */
+    public function shouldUseUnderscoreFunction() {
+        // given
+        $i18n = I18N::instance();
+        $i18n->setPath(__DIR__ . '/../resources/langs');
+        $i18n->setDefaultLang('en');
+        $_GET['lang'] = 'fr';
+        $_SESSION['lang'] = 'fr';
+        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'fr';
+
+        // when
+        $text = _('HELLOWORLD');
+
+        // then
+        $this->assertEquals('en Hello World!', $text);
+    }
+
 }

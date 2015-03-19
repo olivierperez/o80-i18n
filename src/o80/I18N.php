@@ -1,6 +1,27 @@
 <?php
 namespace o80;
 
+/**
+ * This method is a shortcut to <code>I18N::instance()-&gt;get($key);</code>.
+ *
+ * @param string $key The key of the translation
+ * @return string The translation
+ */
+function _($key) {
+    return I18N::instance()->get($key);
+}
+
+/**
+ * This class manage internationalization of an application.<br/>
+ * <u>Usage :</u>
+ * <pre>
+ * $i18n = I18N::instance();
+ * $i18n->setPath(__DIR__ . '/langs');
+ * $i18n->get('Welcome');
+ * </pre>
+ *
+ * @package o80
+ */
 class I18N {
 
     private static $instance;

@@ -48,6 +48,16 @@ submit="valider"
 
 ### Configure the i18n instance
 
+#### Way 1 - Singleton
+
+```php
+$i18n = I18N::instance();
+$i18n->setPath(__DIR__ . '/langs');
+$i18n->setDefaultLang('en');
+```
+
+#### Way 2 - New instance
+
 ```php
 $i18n = new I18N();
 $i18n->setPath(__DIR__ . '/langs');
@@ -55,6 +65,17 @@ $i18n->setDefaultLang('en');
 ```
 
 ### Usage
+
+#### Way 1 - Singleton
+
+```php
+<h1><?php echo _('Welcome'); ?></h1>
+<!-- Result : <h1>Welcome</h1> -->
+<h1><?php echo _('NotExistingText'); ?></h1>
+<!-- Result : <h1>[missing key: NotExistingText]</h1> -->
+```
+
+#### Way 2 - With the instance
 
 ```php
 <h1><?php echo $i18n->get('Welcome'); ?></h1>
