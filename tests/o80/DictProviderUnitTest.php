@@ -19,7 +19,7 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
         // given
 
         // when
-        $dict = $this->provider->load('en', '');
+        $dict = $this->provider->load(array('en', ''));
 
         // then
         $this->assertNotNull($dict);
@@ -34,7 +34,7 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
         // given
 
         // when
-        $dict = $this->provider->load('en_GB', '');
+        $dict = $this->provider->load(array('en_GB', ''));
 
         // then
         $this->assertNotNull($dict);
@@ -49,7 +49,7 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
         // given
 
         // when
-        $dict = $this->provider->load('en_US', '');
+        $dict = $this->provider->load(array('en_US', ''));
 
         // then
         $this->assertNotNull($dict);
@@ -64,7 +64,7 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
         // given
 
         // when
-        $dict = $this->provider->load('fr', '');
+        $dict = $this->provider->load(array('fr', ''));
 
         // then
         $this->assertNull($dict);
@@ -77,7 +77,7 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
         // given
 
         // when
-        $dict = $this->provider->load('fr', 'en');
+        $dict = $this->provider->load(array('fr', 'en'));
 
         // then
         $this->assertNotNull($dict);

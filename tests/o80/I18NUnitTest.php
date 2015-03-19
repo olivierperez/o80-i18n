@@ -1,39 +1,39 @@
 <?php
 namespace o80;
 
-class SessionTest extends \PHPUnit_Framework_TestCase {
+class I18NUnitTest extends \PHPUnit_Framework_TestCase {
 
     /**
-     * @dataProvider langsProvider
+     * @dataProvider availableLangsProvider
      */
-    public function testShouldFindIpOfClient($defaultLang, $getLang, $sessionLang, $acceptLang, $expectedLang) {
+    public function testShouldOrderAvailableLangs($getLang, $sessionLang, $acceptLangs, $defaultLang) {
         // given
-        $i18n = I18N::newInstance();
-        $i18n->setDefaultLang($defaultLang);
         $_GET['lang'] = $getLang;
         $_SESSION['lang'] = $sessionLang;
-        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = $acceptLang;
+
+        $i18n = $this->getMockBuilder('\\o80\\I18N')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getHttpAcceptLanguages'))
+            ->getMock();
+        $i18n->setDefaultLang($defaultLang);
+        $i18n->expects($this->once())
+            ->method('getHttpAcceptLanguages')
+            ->willReturn($acceptLangs);
 
         // when
-        $lang = $i18n->getLang();
+        $langs = $i18n->getAvailableLangs();
 
         // then
-        $this->assertTrue($expectedLang === $lang);
+        $expected = array($getLang, $sessionLang);
+        $expected = array_merge($expected, $acceptLangs);
+        $expected[] = $defaultLang;
+        $this->assertEquals($expected, $langs);
     }
 
-    public function langsProvider() {
+    public function availableLangsProvider() {
         return array(
-            array(null, '', '', '', null), // nothing defined
-            array('en', '', '', '', 'en'), // default lang 'en'
-            array('', 'fr', '', '', 'fr'), // $_GET
-            array('en', 'fr', '', '', 'fr'), // $_GET 'fr' > default 'en'
-            array('', '', 'gb', '', 'gb'), // $_SESSION
-            array('en', '', 'gb', '', 'gb'), // $_SESSION 'gb' > default 'en'
-            array('en', 'fr', 'gb', '', 'fr'), // $_GET 'fr' > $_SESSION 'gb' > default 'en'
-            array('', '', '', 'de', 'de'), // HTTP_ACCEPT_LANGUAGE
-            array('en', '', '', 'de', 'de'), // HTTP_ACCEPT_LANGUAGE > default 'en'
-            array('en', '', 'gb', 'de', 'gb'), // $_SESSION 'gb' > HTTP_ACCEPT_LANGUAGE > default 'en'
-            array('en', 'fr', 'gb', 'de', 'fr'), // $_GET 'fr' > $_SESSION 'gb' > HTTP_ACCEPT_LANGUAGE > default 'en'
+            array('en', 'en', array('en'=>1), 'en'),
+            array('fr', 'en_US', array('en'=>1), 'en'),
         );
     }
 
@@ -54,8 +54,8 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 
     public function httpAcceptLAnguagesProvider() {
         return array(
-            array('en', array('en' => 1)),
-            array('en-US,en;q=0.8,fr-FR;q=0.5,fr;q=0.3', array('en-US' => 1, 'en' => 0.8, 'fr-FR' => 0.5, 'fr' => 0.3))
+            array('en', array('en')),
+            array('en-US,en;q=0.8,fr-FR;q=0.5,fr;q=0.3', array('en_US', 'en', 'fr_FR', 'fr'))
         );
     }
 

@@ -15,37 +15,21 @@ class DictProvider {
     }
 
     /**
-     * @param $lang
-     * @param $defaultLang
-     * @return array|null
+     * @param $langs array Ordered list of accepted languages, prefered ones are first
+     * @return array|null The dictionary or null if not found
      */
-    public function load($lang, $defaultLang) {
+    public function load($langs) {
         // List file names
         $files = $this->listLangFiles();
 
-        // Keep the first file that matches the default lang
-        $defaultFile = null;
-
-        // Check all file names
-        foreach ($files as $file) {
-            // Extract locale from filename
-            $fileLocale = substr($file, 0, strlen($file) - 4);
-
-            if (\Locale::filterMatches($lang, $fileLocale)) { // Check if filename matches $lang
-                return $this->loadFile($file);
+        foreach ($langs as $lang) {
+            $dict = $this->loadMatchingFile($files, $lang);
+            if ($dict !== null) {
+                return $dict;
             }
-
-            if ($defaultFile == null && \Locale::filterMatches($defaultLang, $fileLocale)) {
-                $defaultFile = $file;
-            }
-        }
-
-        if ($defaultFile != null) {
-            return $this->loadFile($defaultFile);
         }
 
         return null;
-
     }
 
     /**
@@ -69,6 +53,24 @@ class DictProvider {
      */
     private function loadFile($filename) {
         return parse_ini_file($this->path . '/' . $filename);
+    }
+
+    /**
+     * @param $files
+     * @param $lang
+     * @return array
+     */
+    private function loadMatchingFile($files, $lang) {
+        // Check all file names
+        foreach ($files as $file) {
+            // Extract locale from filename
+            $fileLocale = substr($file, 0, strlen($file) - 4);
+
+            if (\Locale::filterMatches($lang, $fileLocale)) { // Check if filename matches $lang
+                return $this->loadFile($file);
+            }
+        }
+        return null;
     }
 
 }

@@ -21,15 +21,20 @@ class I18N {
         return $instance;
     }
 
-    public function getLang() {
-        if (!empty($_GET['lang'])) {
-            return $_GET['lang'];
-        } elseif (!empty($_SESSION['lang'])) {
-            return $_SESSION['lang'];
-        } elseif (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-            return $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+    public function getAvailableLangs() {
+        $langs = array();
+        if (isset($_GET) && array_key_exists('lang', $_GET)) {
+            $langs[] = $_GET['lang'];
         }
-        return $this->defaultLang;
+        if (isset($_SESSION) && array_key_exists('lang', $_SESSION)) {
+            $langs[] = $_SESSION['lang'];
+        }
+        $langs = array_merge($langs, $this->getHttpAcceptLanguages());
+        if (!empty($this->defaultLang)) {
+            $langs[] = $this->defaultLang;
+        }
+
+        return $langs;
     }
 
     public function get($key) {
@@ -58,24 +63,25 @@ class I18N {
      */
     public function load() {
         $this->dictProvider->setLangsPath($this->path);
-        $dict = $this->dictProvider->load($this->getLang(), $this->defaultLang);
+        $dict = $this->dictProvider->load($this->getAvailableLangs());
 
         return $dict;
     }
 
     public function getHttpAcceptLanguages() {
-        preg_match_all("/([[:alpha:]]{1,8}(?:-[[:alpha:]|-]{1,8})?)" .
-                       "(?:\\s*;\\s*q\\s*=\\s*(1\\.0{0,3}|0\\.\\d{0,3}))?\\s*(?:,|$)/i",
-                       $_SERVER['HTTP_ACCEPT_LANGUAGE'], $hits);
-        $hits = array_combine($hits[1], $hits[2]);
+        $result = array();
+        if (isset($_SERVER) && array_key_exists('HTTP_ACCEPT_LANGUAGE', $_SERVER)) {
+            preg_match_all("/([[:alpha:]]{1,8}(?:-[[:alpha:]|-]{1,8})?)" .
+                           "(?:\\s*;\\s*q\\s*=\\s*(1\\.0{0,3}|0\\.\\d{0,3}))?\\s*(?:,|$)/i",
+                           $_SERVER['HTTP_ACCEPT_LANGUAGE'], $hits);
+            $hits = array_combine($hits[1], $hits[2]);
 
-        foreach ($hits as $key => $hit) {
-            if (empty($hit)) {
-                $hits[$key] = 1;
+            foreach ($hits as $key => $hit) {
+                $lang = str_replace('-', '_', $key);
+                $result[] = $lang;
             }
         }
 
-
-        return $hits;
+        return $result;
     }
 }

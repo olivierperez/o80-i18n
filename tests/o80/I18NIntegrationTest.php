@@ -25,20 +25,24 @@ class I18NIntegrationTest extends \PHPUnit_Framework_TestCase {
 
     public function langsProvider() {
         return array(
+            // The lines below check the order of $_GET, $_SESSION, $_SERVER, $defaultLang
             array('en', '', '', ''),
-
             array('', 'en', '', ''),
             array('fr', 'en', '', ''),
-
             array('', '', 'en', ''),
             array('fr', '', 'en', ''),
             array('fr', 'fr', 'en', ''),
-
             array('', '', '', 'en'),
             array('fr', '', '', 'en'),
             array('fr', '', 'fr', 'en'),
             array('fr', 'fr', '', 'en'),
             array('fr', 'fr', 'fr', 'en'),
+
+            // The lines below check the fallback on other available languages
+            array('fr', 'fr', 'fr', 'en'),
+            array('en', 'fr', 'fr', 'fr'),
+            array('en_US', 'fr', 'en', 'fr'),
+            array('en_US', 'en', 'fr', 'en_GB')
         );
     }
 
