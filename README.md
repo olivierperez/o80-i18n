@@ -29,7 +29,7 @@ With [Composer](http://getcomposer.org/), you simply need to require [`o80/i18n`
 
 For instance, put your language files in 'lang' directory :
 
-* `lang`
+* `langs`
     * `en.ini`
     * `en_US.ini`
     * `fr.ini`
