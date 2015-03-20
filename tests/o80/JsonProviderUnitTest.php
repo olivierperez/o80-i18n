@@ -1,16 +1,15 @@
 <?php
 namespace o80;
 
-class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
+class JsonProviderUnitTest extends \PHPUnit_Framework_TestCase {
     /**
-     * @test
-     * @var DictProvider
+     * @var JsonProvider
      */
-    private $provider;
+    private $jsonProvider;
 
     public function setUp() {
-        $this->provider = new DictProvider();
-        $this->provider->setLangsPath(__DIR__ . '/../resources/langs/');
+        $this->jsonProvider = new JsonProvider();
+        $this->jsonProvider->setLangsPath(__DIR__ . '/../resources/langs/');
     }
 
     /**
@@ -21,7 +20,7 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
         // given
 
         // when
-        $dict = $this->provider->load(array('en', ''));
+        $dict = $this->jsonProvider->load(array('en', ''));
 
         // then
         $this->assertNotNull($dict);
@@ -37,7 +36,7 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
         // given
 
         // when
-        $dict = $this->provider->load(array('en_GB', ''));
+        $dict = $this->jsonProvider->load(array('en_GB', ''));
 
         // then
         $this->assertNotNull($dict);
@@ -53,7 +52,7 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
         // given
 
         // when
-        $dict = $this->provider->load(array('en_US', ''));
+        $dict = $this->jsonProvider->load(array('en_US', ''));
 
         // then
         $this->assertNotNull($dict);
@@ -69,7 +68,7 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
         // given
 
         // when
-        $dict = $this->provider->load(array('fr', ''));
+        $dict = $this->jsonProvider->load(array('fr', ''));
 
         // then
         $this->assertNull($dict);
@@ -83,7 +82,7 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
         // given
 
         // when
-        $dict = $this->provider->load(array('fr', 'en'));
+        $dict = $this->jsonProvider->load(array('fr', 'en'));
 
         // then
         $this->assertNotNull($dict);
@@ -98,7 +97,7 @@ class DictProviderUnitTest extends \PHPUnit_Framework_TestCase {
      */
     public function shouldThrowExceptionWhenNoFileArePresentInThePath() {
         // given
-        $providerMock = $this->getMock('\\o80\\DictProvider', array('listLangFiles'));
+        $providerMock = $this->getMock('\\o80\\JsonProvider', array('listLangFiles'));
 
         // stub
         $providerMock->method('listLangFiles')->willReturn(array());

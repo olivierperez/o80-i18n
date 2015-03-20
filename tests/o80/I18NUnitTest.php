@@ -69,10 +69,10 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
     /**
      * @test
      */
-    public function shouldLoadShouldCallDictProvider() {
+    public function shouldLoadShouldCallJsonProvider() {
         // given
         $i18n = new I18N();
-        $providerMock = $this->getMock('\\o80\\DictProvider');
+        $providerMock = $this->getMock('\\o80\\JsonProvider');
 
         $reflectionClass = new \ReflectionClass($i18n);
         $reflectionProperty = $reflectionClass->getProperty('dictProvider');
@@ -122,7 +122,7 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
     public function shouldThrowExceptionWhenNoFileAreMatchingTheLanguages() {
         // given
         $i18n = new I18N();
-        $providerMock = $this->getMock('\\o80\\DictProvider');
+        $providerMock = $this->getMock('\\o80\\JsonProvider');
 
         $reflectionClass = new \ReflectionClass($i18n);
         $reflectionProperty = $reflectionClass->getProperty('dictProvider');

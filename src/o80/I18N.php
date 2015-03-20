@@ -32,12 +32,15 @@ class I18N {
 
     private $path;
 
+    /**
+     * @var Provider
+     */
     private $dictProvider = null;
 
     private $useLangFromGET = true;
 
     public function __construct($dictProvider = null) {
-        $this->dictProvider = $dictProvider != null ? $dictProvider : new DictProvider();
+        $this->dictProvider = $dictProvider != null ? $dictProvider : new JsonProvider();
     }
 
     public static function instance() {

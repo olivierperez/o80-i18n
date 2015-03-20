@@ -1,7 +1,7 @@
 <?php
 namespace o80;
 
-class DictProvider {
+class IniProvider implements Provider {
 
     private $path = '.';
 
@@ -48,6 +48,9 @@ class DictProvider {
         $files = array_diff(scandir($this->path), array('..', '.'));
         uasort($files, function ($a, $b) {
             return strlen($a) < strlen($b);
+        });
+        $files = array_filter($files, function($file) {
+            return substr($file, -4) === '.ini';
         });
         return $files;
     }
