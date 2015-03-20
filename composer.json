@@ -1,7 +1,7 @@
 {
   "name": "o80/i18n",
   "description": "Easy library to manage i18n with PHP.",
-  "version": "0.1",
+  "version": "0.2-dev",
   "keywords": [
     "php",
     "i18n",
