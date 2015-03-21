@@ -1,7 +1,9 @@
 <?php
-namespace o80;
+namespace o80\i18n;
 
-class I18NIntegrationTest extends \PHPUnit_Framework_TestCase {
+use o80\I18NTestCase;
+
+class I18NIntegrationTest extends I18NTestCase {
 
     /**
      * @test
@@ -10,7 +12,7 @@ class I18NIntegrationTest extends \PHPUnit_Framework_TestCase {
     function shouldFindKeyFromTheRightFile($defaultLang, $acceptLang, $sessionLang, $getLang) {
         // given
         $i18n = new I18N();
-        $i18n->setPath(__DIR__ . '/../resources/langs');
+        $i18n->setPath($this->getTestResourcePath('langs'));
         $i18n->setDefaultLang($defaultLang);
         $_GET['lang'] = $getLang;
         $_SESSION['lang'] = $sessionLang;
@@ -53,7 +55,7 @@ class I18NIntegrationTest extends \PHPUnit_Framework_TestCase {
     public function shouldUseUnderscoreFunction() {
         // given
         $i18n = I18N::instance();
-        $i18n->setPath(__DIR__ . '/../resources/langs');
+        $i18n->setPath($this->getTestResourcePath('langs'));
         $i18n->setDefaultLang('en');
         $_GET['lang'] = 'fr';
         $_SESSION['lang'] = 'fr';

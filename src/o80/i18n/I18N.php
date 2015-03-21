@@ -1,5 +1,5 @@
 <?php
-namespace o80;
+namespace o80\i18n;
 
 /**
  * This method is a shortcut to <code>I18N::instance()-&gt;get($key);</code>.

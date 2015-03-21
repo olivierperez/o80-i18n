@@ -1,7 +1,10 @@
 <?php
-namespace o80;
+namespace o80\i18n;
 
-class JsonProviderUnitTest extends \PHPUnit_Framework_TestCase {
+use o80\I18NTestCase;
+
+class JsonProviderUnitTest extends I18NTestCase {
+
     /**
      * @var JsonProvider
      */
@@ -9,7 +12,7 @@ class JsonProviderUnitTest extends \PHPUnit_Framework_TestCase {
 
     public function setUp() {
         $this->jsonProvider = new JsonProvider();
-        $this->jsonProvider->setLangsPath(__DIR__ . '/../resources/langs/');
+        $this->jsonProvider->setLangsPath($this->getTestResourcePath('langs'));
     }
 
     /**
@@ -92,12 +95,12 @@ class JsonProviderUnitTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @test
-     * @expectedException \o80\CantLoadDictionaryException
-     * @expectedExceptionMessage \o80\CantLoadDictionaryException::NO_DICTIONARY_FILES
+     * @expectedException \o80\i18n\CantLoadDictionaryException
+     * @expectedExceptionMessage \o80\i18n\CantLoadDictionaryException::NO_DICTIONARY_FILES
      */
     public function shouldThrowExceptionWhenNoFileArePresentInThePath() {
         // given
-        $providerMock = $this->getMock('\\o80\\JsonProvider', array('listLangFiles'));
+        $providerMock = $this->getMock('\\o80\\i18n\\JsonProvider', array('listLangFiles'));
 
         // stub
         $providerMock->method('listLangFiles')->willReturn(array());

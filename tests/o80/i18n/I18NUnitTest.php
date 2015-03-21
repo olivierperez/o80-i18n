@@ -1,7 +1,9 @@
 <?php
-namespace o80;
+namespace o80\i18n;
 
-class I18NUnitTest extends \PHPUnit_Framework_TestCase {
+use o80\I18NTestCase;
+
+class I18NUnitTest extends I18NTestCase {
 
     public function setUp() {
         $_GET = array();
@@ -18,7 +20,7 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
         $_GET['lang'] = $getLang;
         $_SESSION['lang'] = $sessionLang;
 
-        $i18n = $this->getMockBuilder('\\o80\\I18N')
+        $i18n = $this->getMockBuilder('\\o80\\i18n\\I18N')
             ->setMethods(array('getHttpAcceptLanguages'))
             ->getMock();
         $i18n->setDefaultLang($defaultLang);
@@ -72,7 +74,7 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
     public function shouldLoadShouldCallJsonProvider() {
         // given
         $i18n = new I18N();
-        $providerMock = $this->getMock('\\o80\\JsonProvider');
+        $providerMock = $this->getMock('\\o80\\i18n\\JsonProvider');
 
         $reflectionClass = new \ReflectionClass($i18n);
         $reflectionProperty = $reflectionClass->getProperty('dictProvider');
@@ -94,7 +96,7 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
      */
     public function shouldNotLoadDictMoreThanOnce() {
         // given
-        $i18n = $this->getMockBuilder('\\o80\\I18N')
+        $i18n = $this->getMockBuilder('\\o80\\i18n\\I18N')
             ->setMethods(array('load'))
             ->getMock();
 
@@ -116,13 +118,13 @@ class I18NUnitTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @test
-     * @expectedException \o80\CantLoadDictionaryException
-     * @expectedExceptionMessage \o80\CantLoadDictionaryException::NO_MATCHING_FILES
+     * @expectedException \o80\i18n\CantLoadDictionaryException
+     * @expectedExceptionMessage \o80\i18n\CantLoadDictionaryException::NO_MATCHING_FILES
      */
     public function shouldThrowExceptionWhenNoFileAreMatchingTheLanguages() {
         // given
         $i18n = new I18N();
-        $providerMock = $this->getMock('\\o80\\JsonProvider');
+        $providerMock = $this->getMock('\\o80\\i18n\\JsonProvider');
 
         $reflectionClass = new \ReflectionClass($i18n);
         $reflectionProperty = $reflectionClass->getProperty('dictProvider');

@@ -1,7 +1,9 @@
 <?php
-namespace o80;
+namespace o80\i18n;
 
-class IniProviderUnitTest extends \PHPUnit_Framework_TestCase {
+use o80\I18NTestCase;
+
+class IniProviderUnitTest extends I18NTestCase {
 
     /**
      * @var IniProvider
@@ -10,7 +12,7 @@ class IniProviderUnitTest extends \PHPUnit_Framework_TestCase {
 
     public function setUp() {
         $this->iniProvider = new IniProvider();
-        $this->iniProvider->setLangsPath(__DIR__ . '/../resources/langs/');
+        $this->iniProvider->setLangsPath($this->getTestResourcePath('langs'));
     }
 
     /**
@@ -93,12 +95,12 @@ class IniProviderUnitTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @test
-     * @expectedException \o80\CantLoadDictionaryException
-     * @expectedExceptionMessage \o80\CantLoadDictionaryException::NO_DICTIONARY_FILES
+     * @expectedException \o80\i18n\CantLoadDictionaryException
+     * @expectedExceptionMessage \o80\i18n\CantLoadDictionaryException::NO_DICTIONARY_FILES
      */
     public function shouldThrowExceptionWhenNoFileArePresentInThePath() {
         // given
-        $providerMock = $this->getMock('\\o80\\IniProvider', array('listLangFiles'));
+        $providerMock = $this->getMock('\\o80\\i18n\\IniProvider', array('listLangFiles'));
 
         // stub
         $providerMock->method('listLangFiles')->willReturn(array());

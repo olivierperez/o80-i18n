@@ -1,5 +1,5 @@
 <?php
-namespace o80;
+namespace o80\i18n;
 
 interface Provider {
 

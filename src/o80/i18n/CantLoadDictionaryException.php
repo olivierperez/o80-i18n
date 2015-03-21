@@ -1,5 +1,5 @@
 <?php
-namespace o80;
+namespace o80\i18n;
 
 class CantLoadDictionaryException extends \Exception {
     const NO_MATCHING_FILES = "There is no file matching the languages selected.";

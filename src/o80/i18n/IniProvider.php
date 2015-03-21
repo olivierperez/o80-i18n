@@ -1,7 +1,7 @@
 <?php
-namespace o80;
+namespace o80\i18n;
 
-class JsonProvider implements Provider {
+class IniProvider implements Provider {
 
     private $path = '.';
 
@@ -50,19 +50,19 @@ class JsonProvider implements Provider {
             return strlen($a) < strlen($b);
         });
         $files = array_filter($files, function($file) {
-            return substr($file, -5) === '.json';
+            return substr($file, -4) === '.ini';
         });
         return $files;
     }
 
     /**
-     * Parse a JSON file from the {@code path} directry.
+     * Parse a INI file from the {@code path} directry.
      *
      * @param string $filename The name of the file
      * @return array The dictionary
      */
     private function loadFile($filename) {
-        return json_decode(file_get_contents($this->path . '/' . $filename), true);
+        return parse_ini_file($this->path . '/' . $filename);
     }
 
     /**
@@ -76,7 +76,7 @@ class JsonProvider implements Provider {
         // Check all file names
         foreach ($files as $file) {
             // Extract locale from filename
-            $fileLocale = substr($file, 0, strlen($file) - 5);
+            $fileLocale = substr($file, 0, strlen($file) - 4);
 
             if (\Locale::filterMatches($lang, $fileLocale)) { // Check if filename matches $lang
                 return $this->loadFile($file);
