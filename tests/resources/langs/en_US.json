@@ -1,3 +1,4 @@
 {
-  "HELLOWORLD": "en_US Hello World!"
+  "HELLOWORLD": "en_US Hello World!",
+  "a\nb\nc": "en_US a\nb\nc"
 }

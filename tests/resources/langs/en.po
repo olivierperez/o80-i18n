@@ -1,2 +1,9 @@
 msgid "HELLOWORLD"
 msgstr "en Hello World!"
+
+msgid ""
+"a\n"
+"b\n"
+"c"
+msgstr "en a\n"
+"b\nc"

@@ -62,7 +62,7 @@ class I18NIntegrationTest extends I18NTestCase {
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'fr';
 
         // when
-        $text = _('HELLOWORLD');
+        $text = \__('HELLOWORLD');
 
         // then
         $this->assertEquals('en Hello World!', $text);

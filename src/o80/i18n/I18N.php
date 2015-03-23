@@ -2,16 +2,6 @@
 namespace o80\i18n;
 
 /**
- * This method is a shortcut to <code>I18N::instance()-&gt;get($key);</code>.
- *
- * @param string $key The key of the translation
- * @return string The translation
- */
-function _($key) {
-    return I18N::instance()->get($key);
-}
-
-/**
  * This class manage internationalization of an application.<br/>
  * <u>Usage :</u>
  * <pre>
@@ -79,7 +69,14 @@ class I18N {
         if ($this->dict === null) {
             $this->dict = $this->load();
         }
-        return array_key_exists($key, $this->dict) ? $this->dict[$key] : '[missing key: ' . $key . ']';
+        $sectionSeparator = strpos($key, '\\');
+        if ($sectionSeparator !== false) {
+            $section = substr($key, 0, $sectionSeparator);
+            $subkey = substr($key, $sectionSeparator + 1);
+            return array_key_exists($section, $this->dict) && array_key_exists($subkey, $this->dict[$section]) ? $this->dict[$section][$subkey] : '[missing key: ' . $key . ']';
+        } else {
+            return array_key_exists($key, $this->dict) ? $this->dict[$key] : '[missing key: ' . $key . ']';
+        }
     }
 
     /**

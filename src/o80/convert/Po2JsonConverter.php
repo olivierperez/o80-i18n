@@ -32,6 +32,9 @@ class Po2JsonConverter extends FromPoConverter {
     }
 
     protected function toString() {
-        return json_encode($this->json, JSON_PRETTY_PRINT | ~JSON_ERROR_UTF8);
+        $json = json_encode($this->json, JSON_PRETTY_PRINT | ~(JSON_ERROR_UTF8 | JSON_HEX_QUOT | JSON_HEX_APOS));
+        $json = str_replace('\\\\n', '\\n', $json);
+        $json = str_replace('\\\\\\"', '\\"', $json);
+        return $json;
     }
 }
