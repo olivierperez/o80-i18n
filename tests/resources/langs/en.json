@@ -1,4 +1,4 @@
 {
   "HELLOWORLD": "en Hello World!",
-  "a\\nb\\nc": "en a\\nb\\nc"
+  "a\nb\nc": "en a\nb\nc"
 }
