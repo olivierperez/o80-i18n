@@ -30,20 +30,26 @@ With [Composer](http://getcomposer.org/), you simply need to require [`o80/i18n`
 For instance, put your language files in 'lang' directory :
 
 * `langs`
-    * `en.ini`
-    * `en_US.ini`
-    * `fr.ini`
+    * `en.json`
+    * `en_US.json`
+    * `fr.json`
 
-Example of language file `en.ini` :
-```ini
-Welcome="Welcome"
-submit="submit"
+Example of language file `en.json` :
+
+```json
+{
+    "Welcome": "Welcome",
+    "submit": "submit"
+}
 ```
 
-Example of language file `fr.ini` :
-```ini
-Welcome="Bienvenue"
-submit="valider"
+Example of language file `fr.json` :
+
+```json
+{
+   "Welcome": "Bienvenue",
+   "submit": "valider"
+}
 ```
 
 ### Configure the i18n instance
@@ -69,9 +75,9 @@ $i18n->setDefaultLang('en');
 #### Way 1 - Singleton
 
 ```php
-<h1><?php echo _('Welcome'); ?></h1>
+<h1><?php echo __('Welcome'); ?></h1>
 <!-- Result : <h1>Welcome</h1> -->
-<h1><?php echo _('NotExistingText'); ?></h1>
+<h1><?php echo __('NotExistingText'); ?></h1>
 <!-- Result : <h1>[missing key: NotExistingText]</h1> -->
 ```
 
@@ -82,6 +88,30 @@ $i18n->setDefaultLang('en');
 <!-- Result : <h1>Welcome</h1> -->
 <h1><?php echo $i18n->get('NotExistingText'); ?></h1>
 <!-- Result : <h1>[missing key: NotExistingText]</h1> -->
+```
+
+### Usage with Sections
+
+#### fr.json
+
+```json
+{
+    "title": {
+        "Home": "Accueil"
+    },
+    "commons": {
+        "Welcome": "Bienvenue",
+        "yes": "oui",
+        "no": "non",
+    }
+}
+```
+
+#### PHP
+
+```php
+<h1><?php echo __('title\\Home'); ?></h1>
+<!-- Result : <h1>Accueil</h1> -->
 ```
 
 ### How to set the language to use
