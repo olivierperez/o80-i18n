@@ -60,23 +60,38 @@ class I18N {
     /**
      * Get the translation of a key. The language will be automaticaly selected in :
      * $\_GET, $\_SESSION, $\_SERVER or $defaultLang attribute.
+     * <ul>
+     *  <li>$i18n->get('SimpleKey')</li>
+     *  <li>$i18n->get('Generic', 'Yes')</li>
+     *  <li>$i18n->get('Generic\\Yes')</li>
+     * </ul>
      *
-     * @param string $key The key of the translation
+     * @param string $sectionOrFullQualified The Section of the translation (ex: 'Generic'), or the full qualification for the message (ex: 'Generic\\Yes')
+     * @param string $key The key of the translation (the first arguments must be the name of the Section)
      * @return string The translation, or <code>[missing key:$key]</code> if not found
      * @throws CantLoadDictionaryException Thrown when there is no file to be loaded for the prefered languages
      */
-    public function get($key) {
+    public function get($sectionOrFullQualified, $key = null) {
         if ($this->dict === null) {
             $this->dict = $this->load();
         }
-        $sectionSeparator = strpos($key, '\\');
-        if ($sectionSeparator !== false) {
-            $section = substr($key, 0, $sectionSeparator);
-            $subkey = substr($key, $sectionSeparator + 1);
-            return array_key_exists($section, $this->dict) && array_key_exists($subkey, $this->dict[$section]) ? $this->dict[$section][$subkey] : '[missing key: ' . $key . ']';
-        } else {
-            return array_key_exists($key, $this->dict) ? $this->dict[$key] : '[missing key: ' . $key . ']';
+
+        // The section and the key are specified
+        if ($key != null) {
+            return $this->getMessage($sectionOrFullQualified, $key);
         }
+
+        // If the section is actually the full qualified key (Section\Key)
+        $sectionSeparator = strpos($sectionOrFullQualified, '\\');
+        if ($sectionSeparator !== false) {
+            $section = substr($sectionOrFullQualified, 0, $sectionSeparator);
+            $subkey = substr($sectionOrFullQualified, $sectionSeparator + 1);
+
+            return $this->getMessage($section, $subkey);
+        }
+
+        // If the first argument if just the key
+        return array_key_exists($sectionOrFullQualified, $this->dict) ? $this->dict[$sectionOrFullQualified] : '[missing key: ' . $sectionOrFullQualified . ']';
     }
 
     /**
@@ -133,5 +148,14 @@ class I18N {
 
     public function useLangFromGET($useLangFromGET) {
         $this->useLangFromGET = $useLangFromGET;
+    }
+
+    /**
+     * @param $section
+     * @param $key
+     * @return string
+     */
+    private function getMessage($section, $key) {
+        return array_key_exists($section, $this->dict) && array_key_exists($key, $this->dict[$section]) ? $this->dict[$section][$key] : '[missing key: ' . $section . '.' . $key . ']';
     }
 }
