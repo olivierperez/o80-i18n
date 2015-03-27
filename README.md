@@ -1,6 +1,6 @@
 # o80-i18n
 
-**o80-i18n** is a small PHP tool to manage i18n (internationalization). It uses `ini` format for language files.
+**o80-i18n** is a small PHP tool to manage i18n (internationalization). By default it uses `json` format for language files, you can define your own provider if you prefer another format.
 See below how the usage is simple.
 
 [![Build Status](https://travis-ci.org/olivierperez/o80-i18n.svg)](https://travis-ci.org/olivierperez/o80-i18n)
