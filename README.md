@@ -110,7 +110,7 @@ $i18n->setDefaultLang('en');
 #### PHP
 
 ```php
-<h1><?php echo __('title\\Home'); ?></h1>
+<h1><?php echo __('title', 'Home'); ?></h1>
 <!-- Result : <h1>Accueil</h1> -->
 ```
 

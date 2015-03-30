@@ -7,3 +7,8 @@ msgid ""
 "c"
 msgstr "en a\n"
 "b\nc"
+
+# Generic
+
+msgid "YELLOW"
+msgstr "en Yellow"

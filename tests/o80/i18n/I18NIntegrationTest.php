@@ -62,10 +62,32 @@ class I18NIntegrationTest extends I18NTestCase {
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'fr';
 
         // when
-        $text = \__('HELLOWORLD');
+        $helloworld = \__('HELLOWORLD');
+        $yellow = \__('Generic\\YELLOW');
 
         // then
-        $this->assertEquals('en Hello World!', $text);
+        $this->assertEquals('en Hello World!', $helloworld);
+        $this->assertEquals('[missing key: Generic\\YELLOW]', $yellow);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUseUnderscoreWithTwoArgsFunction() {
+        // given
+        $i18n = I18N::instance();
+        $i18n->setPath($this->getTestResourcePath('langs'));
+        $i18n->setDefaultLang('en');
+        $_GET['lang'] = 'fr';
+        $_SESSION['lang'] = 'fr';
+        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'fr';
+
+        // when
+        $yellow = \__('Generic', 'YELLOW');
+
+        // then
+        $this->assertEquals('en Yellow', $yellow);
+
     }
 
 }

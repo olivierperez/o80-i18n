@@ -16,7 +16,6 @@ abstract class FromPoConverter implements Converter {
 
         $this->onConvert();
 
-//        preg_match_all("/(?:#(.+)(?:\r|\n)*)|(?:msgid \"(.+)\"(?:\r|\n)*msgstr \"(.+)\"(?:\r|\n)*)/i", $source, $results, PREG_SET_ORDER);
         $lines = explode(PHP_EOL, $source);
         $sectionName = null;
         $msgid = null;
@@ -25,14 +24,22 @@ abstract class FromPoConverter implements Converter {
         foreach ($lines as $line) {
             if (!empty($line)) {
                 if ($line[0] === '#') { // Section
-                    if ($sectionName !== null) {
+                    if ($msgid != null) { // If there is an Entry to send, send it
+                        $this->onEntry($msgid, $msgstr);
+                    }
+                    if ($sectionName !== null) { // If there is an Section to end, end it
                         $this->afterSection($sectionName);
                     }
+
                     $sectionName = trim(str_replace('#', '', $line));
+
+                    $msgid = null;
+                    $msgstr = null;
+
                     $this->beforeSection($sectionName);
 
                 } elseif (substr($line, 0, 6) === 'msgid ') { // Msg Id
-                    if ($msgid != null) {
+                    if ($msgid != null) { // If there is an entry to send, send it
                         $this->onEntry($msgid, $msgstr);
                     }
                     preg_match('/^msgid \"(.*)\"\s*$/', $line, $matches);
