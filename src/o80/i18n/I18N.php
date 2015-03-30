@@ -63,35 +63,25 @@ class I18N {
      * <ul>
      *  <li>$i18n->get('SimpleKey')</li>
      *  <li>$i18n->get('Generic', 'Yes')</li>
-     *  <li>$i18n->get('Generic\\Yes')</li>
      * </ul>
      *
-     * @param string $sectionOrFullQualified The Section of the translation (ex: 'Generic'), or the full qualification for the message (ex: 'Generic\\Yes')
+     * @param string $sectionOkKey The Section of the translation (ex: 'Generic'), or the key if no section is used
      * @param string $key The key of the translation (the first arguments must be the name of the Section)
      * @return string The translation, or <code>[missing key:$key]</code> if not found
      * @throws CantLoadDictionaryException Thrown when there is no file to be loaded for the prefered languages
      */
-    public function get($sectionOrFullQualified, $key = null) {
+    public function get($sectionOkKey, $key = null) {
         if ($this->dict === null) {
             $this->dict = $this->load();
         }
 
         // The section and the key are specified
         if ($key != null) {
-            return $this->getMessage($sectionOrFullQualified, $key);
-        }
-
-        // If the section is actually the full qualified key (Section\Key)
-        $sectionSeparator = strpos($sectionOrFullQualified, '\\');
-        if ($sectionSeparator !== false) {
-            $section = substr($sectionOrFullQualified, 0, $sectionSeparator);
-            $subkey = substr($sectionOrFullQualified, $sectionSeparator + 1);
-
-            return $this->getMessage($section, $subkey);
+            return $this->getMessage($sectionOkKey, $key);
         }
 
         // If the first argument if just the key
-        return array_key_exists($sectionOrFullQualified, $this->dict) ? $this->dict[$sectionOrFullQualified] : '[missing key: ' . $sectionOrFullQualified . ']';
+        return array_key_exists($sectionOkKey, $this->dict) ? $this->dict[$sectionOkKey] : '[missing key: ' . $sectionOkKey . ']';
     }
 
     /**

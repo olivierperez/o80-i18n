@@ -8,13 +8,12 @@ use o80\i18n\I18N;
  * <ul>
  *  <li>__('SimpleKey')</li>
  *  <li>__('Generic', 'Yes')</li>
- *  <li>__('Generic\\Yes')</li>
  * </ul>
  *
- * @param string $sectionOrFullQualified The Section of the translation (ex: 'Generic'), or the full qualification for the message (ex: 'Generic\\Yes')
+ * @param string $sectionOkKey The Section of the translation (ex: 'Generic'), or the key if no section is used
  * @param string $key The key of the translation (the first arguments must be the name of the Section)
  * @return string The translation
  */
-function __($sectionOrFullQualified, $key = null) {
-    return I18N::instance()->get($sectionOrFullQualified, $key);
+function __($sectionOkKey, $key = null) {
+    return I18N::instance()->get($sectionOkKey, $key);
 }

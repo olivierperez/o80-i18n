@@ -67,7 +67,7 @@ class I18NIntegrationTest extends I18NTestCase {
 
         // then
         $this->assertEquals('en Hello World!', $helloworld);
-        $this->assertEquals('en Yellow', $yellow);
+        $this->assertEquals('[missing key: Generic\\YELLOW]', $yellow);
     }
 
     /**
