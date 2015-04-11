@@ -24,11 +24,13 @@ class IniProviderUnitTest extends I18NTestCase {
 
         // when
         $dict = $this->iniProvider->load(array('en', ''));
+        $loadedLang = $this->iniProvider->getLoadedLang();
 
         // then
         $this->assertNotNull($dict);
         $this->assertEquals(1, count($dict));
         $this->assertEquals('en Hello World!', $dict['HELLOWORLD']);
+        $this->assertEquals('en', $loadedLang);
     }
 
     /**
@@ -40,11 +42,13 @@ class IniProviderUnitTest extends I18NTestCase {
 
         // when
         $dict = $this->iniProvider->load(array('en_GB', ''));
+        $loadedLang = $this->iniProvider->getLoadedLang();
 
         // then
         $this->assertNotNull($dict);
         $this->assertEquals(1, count($dict));
         $this->assertEquals('en Hello World!', $dict['HELLOWORLD']);
+        $this->assertEquals('en', $loadedLang);
     }
 
     /**
@@ -56,11 +60,13 @@ class IniProviderUnitTest extends I18NTestCase {
 
         // when
         $dict = $this->iniProvider->load(array('en_US', ''));
+        $loadedLang = $this->iniProvider->getLoadedLang();
 
         // then
         $this->assertNotNull($dict);
         $this->assertEquals(1, count($dict));
         $this->assertEquals('en_US Hello World!', $dict['HELLOWORLD']);
+        $this->assertEquals('en_US', $loadedLang);
     }
 
     /**
@@ -72,9 +78,11 @@ class IniProviderUnitTest extends I18NTestCase {
 
         // when
         $dict = $this->iniProvider->load(array('fr', ''));
+        $loadedLang = $this->iniProvider->getLoadedLang();
 
         // then
         $this->assertNull($dict);
+        $this->assertNull($loadedLang);
     }
 
     /**
@@ -86,11 +94,13 @@ class IniProviderUnitTest extends I18NTestCase {
 
         // when
         $dict = $this->iniProvider->load(array('fr', 'en'));
+        $loadedLang = $this->iniProvider->getLoadedLang();
 
         // then
         $this->assertNotNull($dict);
         $this->assertEquals(1, count($dict));
         $this->assertEquals('en Hello World!', $dict['HELLOWORLD']);
+        $this->assertEquals('en', $loadedLang);
     }
 
     /**
@@ -110,6 +120,20 @@ class IniProviderUnitTest extends I18NTestCase {
 
         // then
         $providerMock->expects($this->once())->method('listLangFiles');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotGetLoadedLangCodeBeforeLoading() {
+        // given
+        $provider = new IniProvider();
+
+        // when
+        $loadedLang = $provider->getLoadedLang();
+
+        // then
+        $this->assertNull($loadedLang);
     }
 
 }

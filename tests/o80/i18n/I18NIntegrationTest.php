@@ -20,9 +20,11 @@ class I18NIntegrationTest extends I18NTestCase {
 
         // when
         $text = $i18n->get('HELLOWORLD');
+        $loadedLang = $i18n->getLoadedLang();
 
         // then
         $this->assertEquals('en Hello World!', $text);
+        $this->assertEquals('en', $loadedLang);
 
     }
 
@@ -64,10 +66,14 @@ class I18NIntegrationTest extends I18NTestCase {
         // when
         $helloworld = \__('HELLOWORLD');
         $yellow = \__('Generic\\YELLOW');
+        $brown = \__('Generic', 'BROWN');
+        $loadedLang = I18N::instance()->getLoadedLang();
 
         // then
         $this->assertEquals('en Hello World!', $helloworld);
         $this->assertEquals('[missing key: Generic\\YELLOW]', $yellow);
+        $this->assertEquals('[missing key: Generic.BROWN]', $brown);
+        $this->assertEquals('en', $loadedLang);
     }
 
     /**

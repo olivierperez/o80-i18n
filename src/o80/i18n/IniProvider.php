@@ -5,6 +5,8 @@ class IniProvider implements Provider {
 
     private $path = '.';
 
+    private $loadedLang;
+
     function __construct() {}
 
     /**
@@ -24,14 +26,18 @@ class IniProvider implements Provider {
     public function load($langs) {
         // List file names
         $files = $this->listLangFiles();
+        $this->loadedLang = null;
 
         if (empty($files)) {
             throw new CantLoadDictionaryException(CantLoadDictionaryException::NO_DICTIONARY_FILES);
         }
 
         foreach ($langs as $lang) {
-            $dict = $this->loadMatchingFile($files, $lang);
+            $loaded = $this->loadMatchingFile($files, $lang);
+            $dict = $loaded['dict'];
+            $loadedLang = $loaded['lang'];
             if ($dict !== null) {
+                $this->loadedLang = $loadedLang;
                 return $dict;
             }
         }
@@ -79,11 +85,19 @@ class IniProvider implements Provider {
             $fileLocale = substr($file, 0, strlen($file) - 4);
 
             if (\Locale::filterMatches($lang, $fileLocale)) { // Check if filename matches $lang
-                return $this->loadFile($file);
+                return array('dict' => $this->loadFile($file), 'lang' => $fileLocale);
             }
         }
 
         return null;
     }
 
+    /**
+     * This method gives the code of loaded lang. It must be called AFTER the "load" method.
+     *
+     * @return string The code of the loaded lang.
+     */
+    public function getLoadedLang() {
+        return $this->loadedLang;
+    }
 }

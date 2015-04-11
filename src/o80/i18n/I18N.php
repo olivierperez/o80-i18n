@@ -16,17 +16,34 @@ class I18N {
 
     private static $instance;
 
-    private $defaultLang;
-
-    private $dict = null;
-
-    private $path;
+    /**
+     * @var string The default lang code
+     */
+    private $defaultLang = null;
 
     /**
-     * @var Provider
+     * @var array The lang dictionary
+     */
+    private $dict = null;
+
+    /**
+     * @var string The path of langs directory
+     */
+    private $path = null;
+
+    /**
+     * @var string The lang code of loaded lang
+     */
+    private $loadedLang = null;
+
+    /**
+     * @var Provider The lang provider
      */
     private $dictProvider = null;
 
+    /**
+     * @var bool Use or not the lang defined in $_GET['lang']
+     */
     private $useLangFromGET = true;
 
     public function __construct($dictProvider = null) {
@@ -41,7 +58,7 @@ class I18N {
         return self::$instance;
     }
 
-    public function getAvailableLangs() {
+    public function getUserLangs() {
         $langs = array();
         if ($this->useLangFromGET && isset($_GET) && array_key_exists('lang', $_GET)) {
             $langs[] = $_GET['lang'];
@@ -110,7 +127,8 @@ class I18N {
      */
     public function load() {
         $this->dictProvider->setLangsPath($this->path);
-        $dict = $this->dictProvider->load($this->getAvailableLangs());
+        $dict = $this->dictProvider->load($this->getUserLangs());
+        $this->loadedLang = $this->dictProvider->getLoadedLang();
 
         if ($dict === null) {
             throw new CantLoadDictionaryException(CantLoadDictionaryException::NO_MATCHING_FILES);
@@ -138,6 +156,10 @@ class I18N {
 
     public function useLangFromGET($useLangFromGET) {
         $this->useLangFromGET = $useLangFromGET;
+    }
+
+    public function getLoadedLang() {
+        return $this->loadedLang;
     }
 
     /**

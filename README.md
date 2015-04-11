@@ -79,6 +79,8 @@ $i18n->setDefaultLang('en');
 <!-- Result : <h1>Welcome</h1> -->
 <h1><?php echo __('NotExistingText'); ?></h1>
 <!-- Result : <h1>[missing key: NotExistingText]</h1> -->
+<span><?php echo I18N::instance()->getLoadedLang(); ?></span>
+<!-- Result : <span>en</span> -->
 ```
 
 #### Way 2 - With the instance
@@ -88,6 +90,8 @@ $i18n->setDefaultLang('en');
 <!-- Result : <h1>Welcome</h1> -->
 <h1><?php echo $i18n->get('NotExistingText'); ?></h1>
 <!-- Result : <h1>[missing key: NotExistingText]</h1> -->
+<span><?php echo $i18n->getLoadedLang(); ?></span>
+<!-- Result : <span>en</span> -->
 ```
 
 ### Usage with Sections

@@ -29,7 +29,7 @@ class I18NUnitTest extends I18NTestCase {
             ->willReturn($acceptLangs);
 
         // when
-        $langs = $i18n->getAvailableLangs();
+        $langs = $i18n->getUserLangs();
 
         // then
         $expected = array($getLang, $sessionLang);
@@ -154,7 +154,7 @@ class I18NUnitTest extends I18NTestCase {
 
         // when
         $i18n->useLangFromGET($useLangFromGET);
-        $langs = $i18n->getAvailableLangs();
+        $langs = $i18n->getUserLangs();
 
         // then
         $this->assertEquals($expected, $langs);
@@ -168,13 +168,18 @@ class I18NUnitTest extends I18NTestCase {
         );
     }
 
-    private function invoke(&$object, $methodName) {
-        $reflectionClass = new \ReflectionClass($object);
-        $reflectionMethod = $reflectionClass->getMethod($methodName);
-        $reflectionMethod->setAccessible(true);
+    /**
+     * @test
+     */
+    public function shouldNotGetLoadedLangCodeBeforeLoading() {
+        // given
+        $i18n = new I18N();
 
-        $params = array_slice(func_get_args(), 2); // get all the parameters after $methodName
-        return $reflectionMethod->invokeArgs($object, $params);
+        // when
+        $loadedLang = $i18n->getLoadedLang();
+
+        // then
+        $this->assertNull($loadedLang);
     }
 
 }
