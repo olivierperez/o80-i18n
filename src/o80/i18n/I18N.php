@@ -134,6 +134,8 @@ class I18N {
             throw new CantLoadDictionaryException(CantLoadDictionaryException::NO_MATCHING_FILES);
         }
 
+        setlocale(LC_ALL, $this->loadedLang);
+
         return $dict;
     }
 

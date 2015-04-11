@@ -182,4 +182,24 @@ class I18NUnitTest extends I18NTestCase {
         $this->assertNull($loadedLang);
     }
 
+    /**
+     * @test
+     */
+    public function shouldChangeDateFormatterWhenLoadingALang() {
+        // given
+        $providerMock = $this->getMock('\\o80\\i18n\\JsonProvider');
+        $i18n = new I18N($providerMock);
+
+        // stub
+        $providerMock->expects($this->once())->method('load')->willReturn(array('a' => 'A'));
+        $providerMock->expects($this->once())->method('getLoadedLang')->willReturn('fr');
+
+        // when
+        $i18n->load();
+        $month = strftime('%B', 1428784549);
+
+        // then
+        $this->assertEquals('avril', strtolower($month));
+    }
+
 }
