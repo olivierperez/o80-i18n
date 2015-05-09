@@ -203,4 +203,29 @@ class I18NUnitTest extends I18NTestCase {
         $this->asserttrue($locale == 'fr' || $locale == $origin); // $locale == $origin is a hack where "FR" is not managed by the server
     }
 
+    /**
+     * @test
+     */
+    public function shouldFormatMessages() {
+        // given
+        $i18n = $this->getMockBuilder('\\o80\\i18n\\I18N')
+            ->setMethods(array('load'))
+            ->getMock();
+
+        // assert
+        $i18n->expects($this->once())
+            ->method('load')
+            ->willReturn(array('section' => array('hello' => 'Hello %s!', 'count' => '%d lines of code', 'multi' => '%s wrote %d lines of code')));
+
+        // when
+        $helloOlivier = $i18n->format('section', 'hello', 'Olivier');
+        $countLines = $i18n->format('section', 'count', '5');
+        $multi = $i18n->format('section', 'multi', 'Olivier', 10);
+
+        // then
+        $this->assertEquals('Hello Olivier!', $helloOlivier);
+        $this->assertEquals('5 lines of code', $countLines);
+        $this->assertEquals('Olivier wrote 10 lines of code', $multi);
+    }
+
 }

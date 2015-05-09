@@ -102,6 +102,21 @@ class I18N {
     }
 
     /**
+     * Get the translation of the key, and format the result with args.
+     * $i18n->format('Section', 'Key', 'A value')
+     *
+     * @param string $section
+     * @param string $key
+     * @param mixed $args [optional]
+     * @return string
+     */
+    public function format($section, $key, $args = null) {
+        $args = array_slice(func_get_args(), 2);
+        $msg = $this->get($section, $key);
+        return vsprintf($msg, $args);
+    }
+
+    /**
      * Set the path of the dictionaries files directory.
      *
      * @param string $path The path of the directory containing the dictionaries files
