@@ -38,8 +38,10 @@ Example of language file `en.json` :
 
 ```json
 {
-    "Welcome": "Welcome",
-    "submit": "submit"
+    "Generic" : {
+        "Welcome": "Welcome",
+        "submit": "submit"
+    }
 }
 ```
 
@@ -47,8 +49,10 @@ Example of language file `fr.json` :
 
 ```json
 {
-   "Welcome": "Bienvenue",
-   "submit": "valider"
+    "Generic" : {
+       "Welcome": "Bienvenue",
+       "submit": "valider"
+    }
 }
 ```
 
@@ -75,9 +79,9 @@ $i18n->setDefaultLang('en');
 #### Way 1 - Singleton
 
 ```php
-<h1><?php echo __('Welcome'); ?></h1>
+<h1><?php echo __('Generic', 'Welcome'); ?></h1>
 <!-- Result : <h1>Welcome</h1> -->
-<h1><?php echo __('NotExistingText'); ?></h1>
+<h1><?php echo __('Generic', 'NotExistingText'); ?></h1>
 <!-- Result : <h1>[missing key: NotExistingText]</h1> -->
 <span><?php echo I18N::instance()->getLoadedLang(); ?></span>
 <!-- Result : <span>en</span> -->
@@ -86,36 +90,12 @@ $i18n->setDefaultLang('en');
 #### Way 2 - With the instance
 
 ```php
-<h1><?php echo $i18n->get('Welcome'); ?></h1>
+<h1><?php echo $i18n->get('Generic', 'Welcome'); ?></h1>
 <!-- Result : <h1>Welcome</h1> -->
-<h1><?php echo $i18n->get('NotExistingText'); ?></h1>
+<h1><?php echo $i18n->get('Generic', 'NotExistingText'); ?></h1>
 <!-- Result : <h1>[missing key: NotExistingText]</h1> -->
 <span><?php echo $i18n->getLoadedLang(); ?></span>
 <!-- Result : <span>en</span> -->
-```
-
-### Usage with Sections
-
-#### fr.json
-
-```json
-{
-    "title": {
-        "Home": "Accueil"
-    },
-    "commons": {
-        "Welcome": "Bienvenue",
-        "yes": "oui",
-        "no": "non",
-    }
-}
-```
-
-#### PHP
-
-```php
-<h1><?php echo __('title', 'Home'); ?></h1>
-<!-- Result : <h1>Accueil</h1> -->
 ```
 
 ### How to set the language to use

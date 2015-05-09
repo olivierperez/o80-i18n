@@ -103,17 +103,19 @@ class I18NUnitTest extends I18NTestCase {
         // assert
         $i18n->expects($this->once())
             ->method('load')
-            ->willReturn(array('a' => 'A', 'b' => 'B'));
+            ->willReturn(array('s' => array('a' => 'A', 'b' => 'B')));
 
         // when
-        $a = $i18n->get('a');
-        $b = $i18n->get('b');
-        $missingKeyC = $i18n->get('c');
+        $a = $i18n->get('s', 'a');
+        $b = $i18n->get('s', 'b');
+        $missingKeySC = $i18n->get('s', 'c');
+        $missingKeyXC = $i18n->get('x', 'c');
 
         // then
         $this->assertEquals('A', $a);
         $this->assertEquals('B', $b);
-        $this->assertEquals('[missing key: c]', $missingKeyC);
+        $this->assertEquals('[missing key: s.c]', $missingKeySC);
+        $this->assertEquals('[missing key: x.c]', $missingKeyXC);
     }
 
     /**

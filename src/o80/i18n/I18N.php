@@ -78,27 +78,22 @@ class I18N {
      * Get the translation of a key. The language will be automaticaly selected in :
      * $\_GET, $\_SESSION, $\_SERVER or $defaultLang attribute.
      * <ul>
-     *  <li>$i18n->get('SimpleKey')</li>
+     *  <li>$i18n->get('Sevction', 'Some key')</li>
      *  <li>$i18n->get('Generic', 'Yes')</li>
      * </ul>
      *
-     * @param string $sectionOkKey The Section of the translation (ex: 'Generic'), or the key if no section is used
-     * @param string $key The key of the translation (the first arguments must be the name of the Section)
+     * @param string $section The Section of the translation
+     * @param string $key The key of the translation
      * @return string The translation, or <code>[missing key:$key]</code> if not found
      * @throws CantLoadDictionaryException Thrown when there is no file to be loaded for the prefered languages
      */
-    public function get($sectionOkKey, $key = null) {
+    public function get($section, $key) {
         if ($this->dict === null) {
             $this->dict = $this->load();
         }
 
         // The section and the key are specified
-        if ($key != null) {
-            return $this->getMessage($sectionOkKey, $key);
-        }
-
-        // If the first argument if just the key
-        return array_key_exists($sectionOkKey, $this->dict) ? $this->dict[$sectionOkKey] : '[missing key: ' . $sectionOkKey . ']';
+        return $this->getMessage($section, $key);
     }
 
     /**

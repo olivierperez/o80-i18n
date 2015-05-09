@@ -19,7 +19,7 @@ class I18NIntegrationTest extends I18NTestCase {
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = $acceptLang;
 
         // when
-        $text = $i18n->get('HELLOWORLD');
+        $text = $i18n->get('Some', 'HELLOWORLD');
         $loadedLang = $i18n->getLoadedLang();
 
         // then
@@ -64,14 +64,14 @@ class I18NIntegrationTest extends I18NTestCase {
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'fr';
 
         // when
-        $helloworld = \__('HELLOWORLD');
-        $yellow = \__('Generic\\YELLOW');
+        $helloworld = \__('Some', 'HELLOWORLD');
+        $yellow = \__('Generic', 'RED');
         $brown = \__('Generic', 'BROWN');
         $loadedLang = I18N::instance()->getLoadedLang();
 
         // then
         $this->assertEquals('en Hello World!', $helloworld);
-        $this->assertEquals('[missing key: Generic\\YELLOW]', $yellow);
+        $this->assertEquals('[missing key: Generic.RED]', $yellow);
         $this->assertEquals('[missing key: Generic.BROWN]', $brown);
         $this->assertEquals('en', $loadedLang);
     }

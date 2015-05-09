@@ -28,8 +28,8 @@ class JsonProviderUnitTest extends I18NTestCase {
 
         // then
         $this->assertNotNull($dict);
-        $this->assertEquals(3, count($dict));
-        $this->assertEquals('en Hello World!', $dict['HELLOWORLD']);
+        $this->assertEquals(2, count($dict));
+        $this->assertEquals('en Hello World!', $dict['Some']['HELLOWORLD']);
         $this->assertEquals('en', $loadedLang);
     }
 
@@ -46,8 +46,8 @@ class JsonProviderUnitTest extends I18NTestCase {
 
         // then
         $this->assertNotNull($dict);
-        $this->assertEquals(3, count($dict));
-        $this->assertEquals('en Hello World!', $dict['HELLOWORLD']);
+        $this->assertEquals(2, count($dict));
+        $this->assertEquals('en Hello World!', $dict['Some']['HELLOWORLD']);
         $this->assertEquals('en', $loadedLang);
     }
 
@@ -64,8 +64,8 @@ class JsonProviderUnitTest extends I18NTestCase {
 
         // then
         $this->assertNotNull($dict);
-        $this->assertEquals(3, count($dict));
-        $this->assertEquals('en_US Hello World!', $dict['HELLOWORLD']);
+        $this->assertEquals(2, count($dict));
+        $this->assertEquals('en_US Hello World!', $dict['Some']['HELLOWORLD']);
         $this->assertEquals('en_US', $loadedLang);
     }
 
@@ -98,8 +98,8 @@ class JsonProviderUnitTest extends I18NTestCase {
 
         // then
         $this->assertNotNull($dict);
-        $this->assertEquals(3, count($dict));
-        $this->assertEquals('en Hello World!', $dict['HELLOWORLD']);
+        $this->assertEquals(2, count($dict));
+        $this->assertEquals('en Hello World!', $dict['Some']['HELLOWORLD']);
         $this->assertEquals('en', $loadedLang);
     }
 
