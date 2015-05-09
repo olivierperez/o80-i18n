@@ -102,11 +102,10 @@ class I18N {
      *
      * @param string $section
      * @param string $key
-     * @param mixed $args [optional]
-     * @return string
+     * @param array $args [optional]
+     * @return string The formatted translation, or <code>[missing key:$key]</code> if not found
      */
     public function format($section, $key, $args = null) {
-        $args = array_slice(func_get_args(), 2);
         $msg = $this->get($section, $key);
         return vsprintf($msg, $args);
     }

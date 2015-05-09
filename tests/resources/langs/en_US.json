@@ -1,5 +1,6 @@
 {
   "Some": {
+    "HELLO": "en_US Hello %s!",
     "HELLOWORLD": "en_US Hello World!",
     "a\nb\nc": "en_US a\nb\nc"
   },

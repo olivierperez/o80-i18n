@@ -1,4 +1,7 @@
 #Some
+msgid "HELLO"
+msgstr "en Hello %s!"
+
 msgid "HELLOWORLD"
 msgstr "en Hello World!"
 

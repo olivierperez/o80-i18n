@@ -222,7 +222,7 @@ class I18NUnitTest extends I18NTestCase {
         // when
         $helloOlivier = $i18n->format('section', 'hello', 'Olivier');
         $countLines = $i18n->format('section', 'count', '5');
-        $multi = $i18n->format('section', 'multi', 'Olivier', 10);
+        $multi = $i18n->format('section', 'multi', array('Olivier', 10));
 
         // then
         $this->assertEquals('Hello Olivier!', $helloOlivier);

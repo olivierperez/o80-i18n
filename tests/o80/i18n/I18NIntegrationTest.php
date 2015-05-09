@@ -79,7 +79,7 @@ class I18NIntegrationTest extends I18NTestCase {
     /**
      * @test
      */
-    public function shouldUseUnderscoreWithTwoArgsFunction() {
+    public function shouldUseUnderscoreToFormat() {
         // given
         $i18n = I18N::instance();
         $i18n->setPath($this->getTestResourcePath('langs'));
@@ -89,10 +89,10 @@ class I18NIntegrationTest extends I18NTestCase {
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'fr';
 
         // when
-        $yellow = \__('Generic', 'YELLOW');
+        $yellow = \__f('Some', 'HELLO', 'Olivier');
 
         // then
-        $this->assertEquals('en Yellow', $yellow);
+        $this->assertEquals('en Hello Olivier!', $yellow);
 
     }
 
