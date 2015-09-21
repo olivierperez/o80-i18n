@@ -49,7 +49,7 @@ class I18N {
     /**
      * @var array All available local code sets
      */
-    private $codeSets = [
+    private $codeSets = array(
         'af_ZA.UTF-8', 'sq_AL.UTF-8', 'ar_SA.UTF-8', 'eu_ES.UTF-8', 'be_BY.UTF-8', 'bs_BA.UTF-8', 'bg_BG.UTF-8',
         'ca_ES.UTF-8', 'hr_HR.UTF-8', 'zh_CN.UTF-8', 'zh_TW.UTF-8', 'cs_CZ.UTF-8', 'da_DK.UTF-8', 'nl_NL.UTF-8',
         'en.UTF-8', 'et_EE.UTF-8', 'fa_IR.UTF-8', 'ph_PH.UTF-8', 'fi_FI.UTF-8', 'fr_FR.UTF-8', 'fr_CH.UTF-8',
@@ -60,7 +60,7 @@ class I18N {
         'no_NO.UTF-8', 'nn_NO.UTF-8', 'pl.UTF-8', 'pt_PT.UTF-8', 'pt_BR.UTF-8', 'ro_RO.UTF-8', 'ru_RU.UTF-8',
         'mi_NZ.UTF-8', 'sr_CS.UTF-8', 'sk_SK.UTF-8', 'sl_SI.UTF-8', 'so_SO.UTF-8', 'es_ES.UTF-8', 'sv_SE.UTF-8',
         'tl.UTF-8', 'ta_IN.UTF-8', 'th_TH.UTF-8', 'mi_NZ.UTF-8', 'tr_TR.UTF-8', 'uk_UA.UTF-8', 'vi_VN.UTF-8'
-    ];
+    );
 
     public function __construct($dictProvider = null) {
         $this->dictProvider = $dictProvider != null ? $dictProvider : new JsonProvider();
