@@ -30,3 +30,15 @@ function __f($section, $key, $args) {
     $args = array_slice(func_get_args(), 2);
     return I18N::instance()->format($section, $key, $args);
 }
+
+/**
+ * This method is a shortcut to <code>I18N::instance()-&gt;plural(...);</code>.
+ *
+ * @param string $section The Section of the translation
+ * @param string $key The key of the translation
+ * @param mixed  $number 
+ * @return string The formatted translation
+ */
+function __p($section, $key, $number) {
+    return I18N::instance()->plural($section, $key, $number);
+}
