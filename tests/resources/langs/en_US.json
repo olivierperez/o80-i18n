@@ -5,8 +5,6 @@
     "a\nb\nc": "en_US a\nb\nc"
   },
   "Generic": {
-    "YELLOW": "Yellow",
-    "Apple": "apple;apples",
-    "AppleMissing": "apple"
+    "YELLOW": "Yellow"
   }
 }
