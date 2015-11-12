@@ -127,7 +127,7 @@ class I18N {
                 return $number % 10 == 1 && $number != 11 ? 0 : 1;
             },
             function ($number) { // Plural rule 16 (Celtic)
-                return $number == 1 ? 0 : ($number % 10 == 1 && !in_array($number, [11, 71, 91]) ? 1 : ($number % 10 == 2 && $number != 12 && $number != 72 && $number != 92 ? 2 : (in_array($number % 10, [3, 4, 9]) && !in_array($number, [13, 14, 19, 73, 73, 79, 93, 94, 99]) ? 3 : ($number > 1000000 && $number % 10 == 0 ? 4 : 5))));
+                return $number == 1 ? 0 : ($number % 10 == 1 && !in_array($number, array(11, 71, 91)) ? 1 : ($number % 10 == 2 && $number != 12 && $number != 72 && $number != 92 ? 2 : (in_array($number % 10, array(3, 4, 9)) && !in_array($number, array(13, 14, 19, 73, 73, 79, 93, 94, 99)) ? 3 : ($number > 1000000 && $number % 10 == 0 ? 4 : 5))));
             },
         );        
     }
