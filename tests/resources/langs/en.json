@@ -1,6 +1,9 @@
 {
-  "HELLOWORLD": "en Hello World!",
-  "a\nb\nc": "en a\nb\nc",
+  "Some": {
+    "HELLO": "en Hello %s!",
+    "HELLOWORLD": "en Hello World!",
+    "a\nb\nc": "en a\nb\nc"
+  },
   "Generic": {
     "YELLOW": "en Yellow"
   }

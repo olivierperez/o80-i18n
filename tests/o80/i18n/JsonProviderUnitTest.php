@@ -24,11 +24,13 @@ class JsonProviderUnitTest extends I18NTestCase {
 
         // when
         $dict = $this->jsonProvider->load(array('en', ''));
+        $loadedLang = $this->jsonProvider->getLoadedLang();
 
         // then
         $this->assertNotNull($dict);
-        $this->assertEquals(3, count($dict));
-        $this->assertEquals('en Hello World!', $dict['HELLOWORLD']);
+        $this->assertEquals(2, count($dict));
+        $this->assertEquals('en Hello World!', $dict['Some']['HELLOWORLD']);
+        $this->assertEquals('en', $loadedLang);
     }
 
     /**
@@ -40,11 +42,13 @@ class JsonProviderUnitTest extends I18NTestCase {
 
         // when
         $dict = $this->jsonProvider->load(array('en_GB', ''));
+        $loadedLang = $this->jsonProvider->getLoadedLang();
 
         // then
         $this->assertNotNull($dict);
-        $this->assertEquals(3, count($dict));
-        $this->assertEquals('en Hello World!', $dict['HELLOWORLD']);
+        $this->assertEquals(2, count($dict));
+        $this->assertEquals('en Hello World!', $dict['Some']['HELLOWORLD']);
+        $this->assertEquals('en', $loadedLang);
     }
 
     /**
@@ -56,11 +60,13 @@ class JsonProviderUnitTest extends I18NTestCase {
 
         // when
         $dict = $this->jsonProvider->load(array('en_US', ''));
+        $loadedLang = $this->jsonProvider->getLoadedLang();
 
         // then
         $this->assertNotNull($dict);
-        $this->assertEquals(3, count($dict));
-        $this->assertEquals('en_US Hello World!', $dict['HELLOWORLD']);
+        $this->assertEquals(2, count($dict));
+        $this->assertEquals('en_US Hello World!', $dict['Some']['HELLOWORLD']);
+        $this->assertEquals('en_US', $loadedLang);
     }
 
     /**
@@ -72,9 +78,11 @@ class JsonProviderUnitTest extends I18NTestCase {
 
         // when
         $dict = $this->jsonProvider->load(array('fr', ''));
+        $loadedLang = $this->jsonProvider->getLoadedLang();
 
         // then
         $this->assertNull($dict);
+        $this->assertNull($loadedLang);
     }
 
     /**
@@ -86,11 +94,13 @@ class JsonProviderUnitTest extends I18NTestCase {
 
         // when
         $dict = $this->jsonProvider->load(array('fr', 'en'));
+        $loadedLang = $this->jsonProvider->getLoadedLang();
 
         // then
         $this->assertNotNull($dict);
-        $this->assertEquals(3, count($dict));
-        $this->assertEquals('en Hello World!', $dict['HELLOWORLD']);
+        $this->assertEquals(2, count($dict));
+        $this->assertEquals('en Hello World!', $dict['Some']['HELLOWORLD']);
+        $this->assertEquals('en', $loadedLang);
     }
 
     /**
@@ -110,6 +120,17 @@ class JsonProviderUnitTest extends I18NTestCase {
 
         // then
         $providerMock->expects($this->once())->method('listLangFiles');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotGetLoadedLangCodeBeforeLoading() {
+        // when
+        $loadedLang = $this->jsonProvider->getLoadedLang();
+
+        // then
+        $this->assertNull($loadedLang);
     }
 
 }

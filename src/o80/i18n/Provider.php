@@ -17,4 +17,11 @@ interface Provider {
      */
     public function load($langs);
 
+    /**
+     * This method gives the code of loaded lang. It must be called AFTER the "load" method.
+     *
+     * @return string The code of the loaded lang.
+     */
+    public function getLoadedLang();
+
 }

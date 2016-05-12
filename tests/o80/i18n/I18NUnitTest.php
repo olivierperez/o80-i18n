@@ -29,7 +29,7 @@ class I18NUnitTest extends I18NTestCase {
             ->willReturn($acceptLangs);
 
         // when
-        $langs = $i18n->getAvailableLangs();
+        $langs = $i18n->getUserLangs();
 
         // then
         $expected = array($getLang, $sessionLang);
@@ -103,17 +103,19 @@ class I18NUnitTest extends I18NTestCase {
         // assert
         $i18n->expects($this->once())
             ->method('load')
-            ->willReturn(array('a' => 'A', 'b' => 'B'));
+            ->willReturn(array('s' => array('a' => 'A', 'b' => 'B')));
 
         // when
-        $a = $i18n->get('a');
-        $b = $i18n->get('b');
-        $missingKeyC = $i18n->get('c');
+        $a = $i18n->get('s', 'a');
+        $b = $i18n->get('s', 'b');
+        $missingKeySC = $i18n->get('s', 'c');
+        $missingKeyXC = $i18n->get('x', 'c');
 
         // then
         $this->assertEquals('A', $a);
         $this->assertEquals('B', $b);
-        $this->assertEquals('[missing key: c]', $missingKeyC);
+        $this->assertEquals('[missing key: s.c]', $missingKeySC);
+        $this->assertEquals('[missing key: x.c]', $missingKeyXC);
     }
 
     /**
@@ -154,7 +156,7 @@ class I18NUnitTest extends I18NTestCase {
 
         // when
         $i18n->useLangFromGET($useLangFromGET);
-        $langs = $i18n->getAvailableLangs();
+        $langs = $i18n->getUserLangs();
 
         // then
         $this->assertEquals($expected, $langs);
@@ -168,13 +170,64 @@ class I18NUnitTest extends I18NTestCase {
         );
     }
 
-    private function invoke(&$object, $methodName) {
-        $reflectionClass = new \ReflectionClass($object);
-        $reflectionMethod = $reflectionClass->getMethod($methodName);
-        $reflectionMethod->setAccessible(true);
+    /**
+     * @test
+     */
+    public function shouldNotGetLoadedLangCodeBeforeLoading() {
+        // given
+        $i18n = new I18N();
 
-        $params = array_slice(func_get_args(), 2); // get all the parameters after $methodName
-        return $reflectionMethod->invokeArgs($object, $params);
+        // when
+        $loadedLang = $i18n->getLoadedLang();
+
+        // then
+        $this->assertNull($loadedLang);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldChangeDateFormatterWhenLoadingALang() {
+        // given
+        $providerMock = $this->getMock('\\o80\\i18n\\JsonProvider');
+        $i18n = new I18N($providerMock);
+        $origin = setlocale(LC_CTYPE, 0);
+
+        // stub
+        $providerMock->expects($this->once())->method('load')->willReturn(array('a' => 'A'));
+        $providerMock->expects($this->once())->method('getLoadedLang')->willReturn('fr');
+
+        // when
+        $i18n->load();
+        $locale = setlocale(LC_CTYPE, 0);
+
+        // then
+        $this->asserttrue($locale == 'fr' || $locale == $origin); // $locale == $origin is a hack where "FR" is not managed by the server
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFormatMessages() {
+        // given
+        $i18n = $this->getMockBuilder('\\o80\\i18n\\I18N')
+            ->setMethods(array('load'))
+            ->getMock();
+
+        // assert
+        $i18n->expects($this->once())
+            ->method('load')
+            ->willReturn(array('section' => array('hello' => 'Hello %s!', 'count' => '%d lines of code', 'multi' => '%s wrote %d lines of code')));
+
+        // when
+        $helloOlivier = $i18n->format('section', 'hello', 'Olivier');
+        $countLines = $i18n->format('section', 'count', '5');
+        $multi = $i18n->format('section', 'multi', array('Olivier', 10));
+
+        // then
+        $this->assertEquals('Hello Olivier!', $helloOlivier);
+        $this->assertEquals('5 lines of code', $countLines);
+        $this->assertEquals('Olivier wrote 10 lines of code', $multi);
     }
 
 }
