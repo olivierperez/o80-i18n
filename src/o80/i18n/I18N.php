@@ -54,7 +54,7 @@ class I18N {
         'ca_ES.UTF-8', 'hr_HR.UTF-8', 'zh_CN.UTF-8', 'zh_TW.UTF-8', 'cs_CZ.UTF-8', 'da_DK.UTF-8', 'nl_NL.UTF-8',
         'en.UTF-8', 'et_EE.UTF-8', 'fa_IR.UTF-8', 'ph_PH.UTF-8', 'fi_FI.UTF-8', 'fr_FR.UTF-8', 'fr_CH.UTF-8',
         'fr_BE.UTF-8', 'fr_CA.UTF-8', 'ga.UTF-8', 'gl_ES.UTF-8', 'ka_GE.UTF-8', 'de_DE.UTF-8', 'de_DE.UTF-8',
-        'el_GR.UTF-8', 'gu.UTF-8', 'he_IL.utf8', 'hi_IN.UTF-8', 'hu.UTF-8', 'is_IS.UTF-8', 'id_ID.UTF-8',
+        'el_GR.UTF-8', 'gu.UTF-8', 'he_IL.utf8', 'hi_IN.UTF-8', 'hu_HU.UTF-8', 'is_IS.UTF-8', 'id_ID.UTF-8',
         'it_IT.UTF-8', 'ja_JP.UTF-8', 'kn_IN.UTF-8', 'km_KH.UTF-8', 'ko_KR.UTF-8', 'lo_LA.UTF-8', 'lt_LT.UTF-8',
         'lat.UTF-8', 'ml_IN.UTF-8', 'ms_MY.UTF-8', 'mi_NZ.UTF-8', 'mi_NZ.UTF-8', 'mn.UTF-8', 'no_NO.UTF-8',
         'no_NO.UTF-8', 'nn_NO.UTF-8', 'pl.UTF-8', 'pt_PT.UTF-8', 'pt_BR.UTF-8', 'ro_RO.UTF-8', 'ru_RU.UTF-8',
