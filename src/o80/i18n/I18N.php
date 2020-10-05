@@ -62,8 +62,74 @@ class I18N {
         'tl.UTF-8', 'ta_IN.UTF-8', 'th_TH.UTF-8', 'mi_NZ.UTF-8', 'tr_TR.UTF-8', 'uk_UA.UTF-8', 'vi_VN.UTF-8'
     );
 
+    /**
+     * Array of pluralRules
+     * @see https://developer.mozilla.org/en-US/docs/Mozilla/Localization/Localization_and_Plurals
+     * @var array 
+     */
+    private $pluralRules = array();
+
+    /**
+     * Plural rule
+     * @var int 
+     */
+    private $pluralRule = 1;
+    
     public function __construct($dictProvider = null) {
         $this->dictProvider = $dictProvider != null ? $dictProvider : new JsonProvider();
+        $this->pluralRules = array(
+            function ($number) { // Plural rule 0 (Chinese)
+                return 0;
+            },
+            function ($number) { // Plural rule 1 (English)
+                return $number == 1 ? 0 : 1;
+            },
+            function ($number) { // Plural rule 2 (French)
+                return $number <= 1 ? 0 : 1;
+            },
+            function ($number) { // Plural rule 3 (Latvian)
+                return $number == 0 ? 0 : ($number % 100 != 11 && $number % 10 == 1 ? 1 : 2);
+            },
+            function ($number) { // Plural rule 4 (Scottish Gaelic)
+                return $number == 1 || $number == 11 ? 0 : ($number == 2 || $number == 12 ? 1 : (($number >= 3 && $number <= 10) || ($number >= 13 && $number <= 19) ? 2 : 3));
+            },
+            function ($number) { // Plural rule 5 (Romanian)
+                return $number == 1 ? 0 : ($number == 0 || ($number < 20 && $number % 100 < 20) ? 1 : 2);
+            },
+            function ($number) { // Plural rule 6 (Lithuanian)
+                return $number != 11 && $number % 10 == 1 ? 0 : ($number % 10 == 0 || ($number % 100 >= 11 && $number % 100 <= 19) ? 1 : 2);
+            },
+            function ($number) { // Plural rule 7 (Russian)
+                return $number % 10 == 1 && $number != 11 ? 0 : (($number % 10 >= 2 && $number % 10 <= 4) && ($number != 12 && $number != 14) ? 1 : 2);
+            },
+            function ($number) { // Plural rule 8 (Slovak)
+                return $number == 1 ? 0 : ($number >= 2 && $number <= 4 ? 1 : 2);
+            },
+            function ($number) { // Plural rule 9 (Polish)
+                return $number == 1 ? 0 : (($number % 10 >= 2 && $number % 10 <= 4) && ($number != 12 && $number != 14) ? 1 : 2);
+            },
+            function ($number) { // Plural rule 10 (Slovenian)
+                return $number % 100 == 1 ? 0 : ($number % 100 == 2 ? 1 : ($number % 100 == 3 || $number % 100 == 4 ? 2 : 3));
+            },
+            function ($number) { // Plural rule 11 (Irish Gaeilge)
+                return $number == 1 ? 0 : ($number == 2 ? 1 : ($number >= 3 || $number <= 6 ? 2 : ($number >= 7 || $number <= 10 ? 3 : 4)));
+            },
+            function ($number) { // Plural rule 12 (Arabic)
+                return $number == 1 ? 0 : ($number == 2 ? 1 : ($number % 100 >= 3 || $number % 100 <= 10 ? 2 : ($number != 0 && ($number % 100 > 2) ? 3 : ($number != 0 && $number % 100 <= 2 ? 4 : 5))));
+            },
+            function ($number) { // Plural rule 13 (Maltese)
+                return $number == 1 ? 0 : ($number == 0 || ($number % 100 >= 1 && $number % 100 <= 10) ? 1 : ($number % 100 >= 11 && $number % 100 <= 19 ? 2 : 3));
+            },
+            function ($number) { // Plural rule 14 (Macedonian)
+                return $number % 10 == 1 ? 0 : ($number % 10 == 2 ? 1 : 2);
+            },
+            function ($number) { // Plural rule 15 (Icelandic)
+                return $number % 10 == 1 && $number != 11 ? 0 : 1;
+            },
+            function ($number) { // Plural rule 16 (Celtic)
+                return $number == 1 ? 0 : ($number % 10 == 1 && !in_array($number, array(11, 71, 91)) ? 1 : ($number % 10 == 2 && $number != 12 && $number != 72 && $number != 92 ? 2 : (in_array($number % 10, array(3, 4, 9)) && !in_array($number, array(13, 14, 19, 73, 73, 79, 93, 94, 99)) ? 3 : ($number > 1000000 && $number % 10 == 0 ? 4 : 5))));
+            },
+        );        
     }
 
     public static function instance() {
@@ -73,6 +139,15 @@ class I18N {
 
         return self::$instance;
     }
+    
+    /**
+     * Get current plural rule number
+     * @return int
+     */
+    public function getPluralRule()
+    {
+        return $this->pluralRule;
+    }    
 
     public function getUserLangs() {
         $langs = array();
@@ -105,7 +180,7 @@ class I18N {
      */
     public function get($section, $key) {
         if ($this->dict === null) {
-            $this->dict = $this->load();
+            $this->dict = $this->load();            
         }
 
         // The section and the key are specified
@@ -125,6 +200,25 @@ class I18N {
         $msg = $this->get($section, $key);
         return vsprintf($msg, $args);
     }
+    
+    
+    /**
+     * Get the plural form of the translation of the key.
+     * App::I18n->format('Section', 'Key', 'A value')
+     *
+     * @param string $section
+     * @param string $key
+     * @param int $number
+     * @return string The correct plural form based on plural rule, or <code>[missing [key|plural]:$key]</code> if key/plural not found
+     */
+    public function plural($section, $key, $number)
+    {
+        $string = $this->get($section, $key);
+        $string = explode(';', $string);
+        $pluralForm = $this->pluralRules[$this->getPluralRule()](abs((int) $number));
+
+        return isset($string[$pluralForm]) ? $string[$pluralForm] : '[missing plural: ' . $section . '.' . $key . ']';
+    }    
 
     /**
      * Set the path of the dictionaries files directory.
@@ -135,6 +229,20 @@ class I18N {
         $this->path = $path;
     }
 
+    /**
+     * Set plural rule
+     * @param int $rule
+     * @throws \Exception
+     */
+    public function setPluralRule($rule)
+    {
+        if ($rule < 0 && $rule > count($this->pluralRules) - 1) {
+            throw new \Exception('No such plural rule ' . $rule);
+        }
+
+        $this->pluralRule = $rule;
+    }    
+    
     /**
      * Set the default language.
      *
@@ -208,5 +316,5 @@ class I18N {
                 break;
             }
         }
-    }
+    }        
 }
